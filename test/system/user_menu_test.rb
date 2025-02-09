@@ -15,6 +15,10 @@ class UserMenuTest < ApplicationSystemTestCase
     # Menu should be hidden by default
     assert_selector 'div[data-dropdown-target="menu"]', visible: false
 
+    # Verify Gravatar is present
+    gravatar_hash = Digest::MD5.hexdigest(@user.email.strip.downcase)
+    assert_selector "img[src*='#{gravatar_hash}']"
+
     # Click user menu button
     find("#user-menu-button").click
 
@@ -36,6 +40,10 @@ class UserMenuTest < ApplicationSystemTestCase
 
     # Menu should be hidden by default
     assert_selector 'div[data-dropdown-target="menu"]', visible: false
+
+    # Verify Gravatar is present
+    gravatar_hash = Digest::MD5.hexdigest(@user.email.strip.downcase)
+    assert_selector "img[src*='#{gravatar_hash}']"
 
     # Click user menu button (with user email visible)
     find("#user-menu-button", text: "user1@example.com").click
