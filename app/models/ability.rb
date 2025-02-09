@@ -7,8 +7,11 @@ class Ability
     # Define abilities for the user here. For example:
     user ||= User.new # guest user (not logged in)
 
-    if user.persisted?
-      # Logged in users can manage their own account
+    if user.is_admin?
+      # Admin users can manage everything
+      can :manage, :all
+    elsif user.persisted?
+      # Regular logged in users can manage their own account
       can :manage, User, id: user.id
     end
 
