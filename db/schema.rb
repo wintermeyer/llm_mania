@@ -10,7 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_09_144119) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_09_154656) do
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "llm_models", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.integer "size", null: false
+    t.boolean "is_active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "ollama_name", null: false
+    t.index ["is_active"], name: "index_llm_models_on_is_active"
+    t.index ["name"], name: "index_llm_models_on_name", unique: true
+    t.index ["ollama_name"], name: "index_llm_models_on_ollama_name", unique: true
+    t.index ["slug"], name: "index_llm_models_on_slug", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

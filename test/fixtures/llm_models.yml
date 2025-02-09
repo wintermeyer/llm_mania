@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Claude 3 Opus
+  slug: claude-3-opus
+  size: 200000
+  is_active: true
+  ollama_name: claude3:opus
+
+two:
+  name: GPT-4
+  slug: gpt-4
+  size: 175000
+  is_active: false
+  ollama_name: gpt4:latest

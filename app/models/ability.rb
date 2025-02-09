@@ -13,6 +13,9 @@ class Ability
     elsif user.persisted?
       # Regular logged in users can manage their own account
       can :manage, User, id: user.id
+      can :read, LlmModel, is_active: true
+    else
+      can :read, LlmModel, is_active: true
     end
 
     # Everyone can read public content

@@ -11,3 +11,9 @@ user_two:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   is_admin: false
+
+admin:
+  email: admin@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  confirmed_at: <%= Time.current %>
+  is_admin: true
