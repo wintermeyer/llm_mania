@@ -1,6 +1,11 @@
 require "application_system_test_case"
 
 class MobileNavigationTest < ApplicationSystemTestCase
+  setup do
+    @user = users(:user_one)
+    sign_in @user
+  end
+
   test "can toggle mobile navigation menu" do
     # Set a mobile device viewport
     page.driver.browser.manage.window.resize_to(375, 812) # iPhone X dimensions

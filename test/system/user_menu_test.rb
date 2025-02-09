@@ -1,6 +1,11 @@
 require "application_system_test_case"
 
 class UserMenuTest < ApplicationSystemTestCase
+  setup do
+    @user = users(:user_one)
+    sign_in @user
+  end
+
   test "can toggle user menu on mobile" do
     # Set mobile viewport (iPhone X)
     page.driver.browser.manage.window.resize_to(375, 812)
@@ -32,8 +37,8 @@ class UserMenuTest < ApplicationSystemTestCase
     # Menu should be hidden by default
     assert_selector 'div[data-dropdown-target="menu"]', visible: false
 
-    # Click user menu button (with user name visible)
-    find("#user-menu-button", text: "Tom Cook").click
+    # Click user menu button (with user email visible)
+    find("#user-menu-button", text: "user1@example.com").click
 
     # Menu should be visible with specific menu items
     assert_selector 'div[data-dropdown-target="menu"]', visible: true
