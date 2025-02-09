@@ -13,14 +13,14 @@ class LlmModelsTest < ApplicationSystemTestCase
   test "visiting the index as admin shows all models and new button" do
     visit llm_models_url
     assert_selector "h1", text: "LLM Models"
-    assert_selector "a", text: "New LLM Model"
+    assert_selector "a", text: "Add model"
   end
 
   test "visiting the index as regular user hides new button" do
     sign_in @regular_user
     visit llm_models_url
     assert_selector "h1", text: "LLM Models"
-    assert_no_selector "a", text: "New LLM Model"
+    assert_no_selector "a", text: "Add model"
   end
 
   test "admin can access new LLM model page directly" do
@@ -36,7 +36,7 @@ class LlmModelsTest < ApplicationSystemTestCase
 
   test "creating a new LLM model as admin" do
     visit llm_models_url
-    click_on "New LLM Model"
+    click_on "Add model"
 
     fill_in "Name", with: "GPT-4 Turbo"
     fill_in "Ollama name", with: "gpt4:turbo"
