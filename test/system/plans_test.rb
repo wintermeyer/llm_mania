@@ -70,7 +70,7 @@ class PlansTest < ApplicationSystemTestCase
     fill_in "Name", with: "Premium Plan"
     fill_in "Description", with: "This is a premium plan with advanced features"
     fill_in "Price", with: "49.99"
-    check "Is active"
+    check "Active"
     click_on "Create plan"
 
     assert_text "Plan was successfully created"

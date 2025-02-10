@@ -41,9 +41,9 @@ class LlmModelsTest < ApplicationSystemTestCase
     fill_in "Name", with: "GPT-4 Turbo"
     fill_in "Ollama name", with: "gpt4:turbo"
     fill_in "Size", with: "1_000_000"
-    check "Is active"
+    check "Active"
 
-    click_on "Create LLM model"
+    click_on "Create model"
 
     assert_text "LLM model was successfully created"
     assert_text "GPT-4 Turbo"
@@ -67,7 +67,7 @@ class LlmModelsTest < ApplicationSystemTestCase
     fill_in "Name", with: "Updated Model"
     fill_in "Ollama name", with: "updated:latest"
     fill_in "Size", with: "2000000"
-    click_on "Update LLM model"
+    click_on "Update model"
 
     assert_text "LLM model was successfully updated"
     assert_text "Updated Model"

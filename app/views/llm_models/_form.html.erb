@@ -1,38 +1,72 @@
-<%= form_with(model: llm_model, class: "contents") do |form| %>
-  <% if llm_model.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(llm_model.errors.count, "error") %> prohibited this llm_model from being saved:</h2>
+<%= form_with(model: llm_model) do |form| %>
+  <div class="space-y-12">
+    <div class="border-b border-gray-900/10 pb-12">
+      <h2 class="text-base/7 font-semibold text-gray-900">Model Information</h2>
+      <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly to users.</p>
 
-      <ul class="list-disc ml-6">
-        <% llm_model.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+      <% if llm_model.errors.any? %>
+        <div class="rounded-md bg-red-50 p-4 mt-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">
+                <%= pluralize(llm_model.errors.count, "error") %> prohibited this LLM model from being saved:
+              </h3>
+              <div class="mt-2 text-sm text-red-700">
+                <ul class="list-disc space-y-1 pl-5">
+                  <% llm_model.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="mt-10 grid grid-cols-1 gap-y-8">
+        <div>
+          <%= form.label :name, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_field :name, class: "block w-full rounded-md bg-white px-4 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div>
+          <%= form.label :ollama_name, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_field :ollama_name, class: "block w-full rounded-md bg-white px-4 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+          <p class="mt-3 text-sm/6 text-gray-600">The model name in Ollama format (e.g. llama2:13b or mistral:7b)</p>
+        </div>
+
+        <div>
+          <%= form.label :size, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :size, class: "block w-full rounded-md bg-white px-4 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+          <p class="mt-3 text-sm/6 text-gray-600">Size in megabytes</p>
+        </div>
+
+        <div class="relative flex gap-x-3">
+          <div class="flex h-6 items-center">
+            <%= form.check_box :is_active, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+          </div>
+          <div class="text-sm/6">
+            <label for="llm_model_is_active" class="font-medium text-gray-900">Active</label>
+            <p class="text-gray-500">Make this model available to users.</p>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": llm_model.errors[:name].none?, "border-red-400 focus:outline-red-600": llm_model.errors[:name].any?}] %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :ollama_name %>
-    <div class="mt-1 text-sm text-gray-500">The model name in Ollama format (e.g. llama2:13b or mistral:7b)</div>
-    <%= form.text_field :ollama_name, class: ["block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": llm_model.errors[:ollama_name].none?, "border-red-400 focus:outline-red-600": llm_model.errors[:ollama_name].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :size %>
-    <%= form.number_field :size, class: ["block shadow-sm rounded-md border outline-hidden px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": llm_model.errors[:size].none?, "border-red-400 focus:outline-red-600": llm_model.errors[:size].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active, class: ["block shadow-sm rounded-md border outline-hidden mt-2 h-5 w-5", {"border-gray-400 focus:outline-blue-600": llm_model.errors[:is_active].none?, "border-red-400 focus:outline-red-600": llm_model.errors[:is_active].any?}] %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit llm_model.new_record? ? "Create LLM model" : "Update LLM model", class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <div class="mt-6 flex items-center justify-end gap-x-6">
+    <%= link_to "Cancel", llm_models_path, class: "text-sm/6 font-semibold text-gray-900" %>
+    <%= form.submit llm_model.new_record? ? "Create model" : "Update model", class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
   </div>
 <% end %>
