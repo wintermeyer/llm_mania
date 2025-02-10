@@ -4,19 +4,19 @@ Plan.destroy_all
 # Create plans
 [
   {
-    name: "Free Plan",
+    name: "Free",
     price: 0,
     is_active: true,
     description: "Access to the basic LLM models."
   },
   {
-    name: "Pro Plan",
+    name: "Pro",
     price: 9.99,
     is_active: true,
     description: "Access to all active LLM models."
   },
   {
-    name: "Fast Track Plan",
+    name: "Fast Track",
     price: 19.99,
     is_active: true,
     description: "Access to all active LLM models and by pass the queue. Get your requests done faster."

@@ -28,7 +28,7 @@ class MobileNavigationTest < ApplicationSystemTestCase
     # Verify menu content
     within("#mobile-navigation") do
       assert_text "Dashboard"
-      assert_text "Team"
+      assert_text "Settings"
     end
 
     # Click close button
