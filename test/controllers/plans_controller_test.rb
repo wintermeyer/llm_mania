@@ -103,13 +103,25 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy plan when admin and no users are using it" do
     sign_in @admin
-    plan_without_users = plans(:enterprise) # Using enterprise plan as it's inactive and shouldn't have users
+    plan_without_users = plans(:enterprise) # Using enterprise plan as it's inactive and has no users
 
     assert_difference("Plan.count", -1) do
       delete plan_url(plan_without_users)
     end
 
     assert_redirected_to plans_url
+  end
+
+  test "should not destroy default plan" do
+    sign_in @admin
+    @plan.update!(is_default: true)
+
+    assert_no_difference("Plan.count") do
+      delete plan_url(@plan)
+    end
+
+    assert_redirected_to plans_url
+    assert_equal "Cannot delete the default plan", flash[:alert]
   end
 
   test "should not destroy plan when it has users" do

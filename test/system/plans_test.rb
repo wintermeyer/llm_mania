@@ -119,6 +119,24 @@ class PlansTest < ApplicationSystemTestCase
     assert_selector "tbody tr", count: 2
   end
 
+  test "cannot delete the default plan" do
+    sign_in @admin
+    visit plans_url
+
+    # Make basic plan the default plan
+    @plan.update!(is_default: true)
+
+    # Try to delete the default plan
+    within("tr", text: @plan.name) do
+      accept_confirm do
+        click_on "Delete"
+      end
+    end
+
+    assert_text "Cannot delete the default plan"
+    assert_selector "tbody tr", count: 3
+  end
+
   test "regular user cannot access new plan page" do
     sign_in @regular_user
     visit new_plan_url

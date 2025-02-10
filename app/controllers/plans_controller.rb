@@ -50,7 +50,9 @@ class PlansController < ApplicationController
 
   # DELETE /plans/1
   def destroy
-    if @plan.users.exists?
+    if @plan.is_default?
+      redirect_to plans_url, alert: "Cannot delete the default plan"
+    elsif @plan.users.exists?
       redirect_to plans_url, alert: "Cannot delete record because dependent users exist"
     else
       @plan.destroy

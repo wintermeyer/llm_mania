@@ -17,6 +17,7 @@ class Plan < ApplicationRecord
   validates :description, presence: true, length: { minimum: 10, maximum: 1000 }
   validates :is_default, inclusion: { in: [ true, false ] }
   validate :only_one_default_plan
+  before_destroy :prevent_destroying_default_plan
 
   # Scope for active plans
   scope :active, -> { where(is_active: true) }
@@ -54,6 +55,13 @@ class Plan < ApplicationRecord
     other_default = Plan.where(is_default: true).where.not(id: id).exists?
     if other_default
       errors.add(:is_default, "can only be set for one plan")
+    end
+  end
+
+  def prevent_destroying_default_plan
+    if is_default?
+      errors.add(:base, "Cannot delete the default plan")
+      throw :abort
     end
   end
 end

@@ -8,6 +8,7 @@ Plan.destroy_all
     price: 0,
     is_active: true,
     description: "Access to the basic LLM models.",
+    is_default: true,
     llm_model_ids: LlmModel.where(size: ..5000).pluck(:id) # Models under 5GB
   },
   {
