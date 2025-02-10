@@ -82,7 +82,7 @@ class PlansTest < ApplicationSystemTestCase
     sign_in @regular_user
     visit new_plan_url
 
-    assert_text "You are not authorized to access this page"
+    assert_text "You are not authorized to perform this action"
     assert_current_path root_path
   end
 
@@ -115,7 +115,7 @@ class PlansTest < ApplicationSystemTestCase
     sign_in @regular_user
     visit new_plan_url
 
-    assert_text "You are not authorized to access this page"
+    assert_text "You are not authorized to perform this action"
     assert_current_path root_path
   end
 
@@ -123,7 +123,7 @@ class PlansTest < ApplicationSystemTestCase
     sign_in @regular_user
     visit edit_plan_url(@plan)
 
-    assert_text "You are not authorized to access this page"
+    assert_text "You are not authorized to perform this action"
     assert_current_path root_path
   end
 end
