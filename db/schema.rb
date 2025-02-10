@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_164954) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_180938) do
+  create_table "atom_prompt_jobs", force: :cascade do |t|
+    t.integer "prompt_job_id", null: false
+    t.integer "llm_model_id", null: false
+    t.string "state", default: "pending", null: false
+    t.text "response"
+    t.text "error_message"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "result"
+    t.index ["completed_at"], name: "index_atom_prompt_jobs_on_completed_at"
+    t.index ["llm_model_id"], name: "index_atom_prompt_jobs_on_llm_model_id"
+    t.index ["prompt_job_id", "llm_model_id"], name: "index_atom_prompt_jobs_uniqueness", unique: true
+    t.index ["prompt_job_id"], name: "index_atom_prompt_jobs_on_prompt_job_id"
+    t.index ["started_at"], name: "index_atom_prompt_jobs_on_started_at"
+    t.index ["state"], name: "index_atom_prompt_jobs_on_state"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -112,6 +131,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_164954) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "atom_prompt_jobs", "llm_models"
+  add_foreign_key "atom_prompt_jobs", "prompt_jobs"
   add_foreign_key "plan_llm_models", "llm_models"
   add_foreign_key "plan_llm_models", "plans"
   add_foreign_key "prompt_job_llm_models", "llm_models"

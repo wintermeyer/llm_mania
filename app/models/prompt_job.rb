@@ -4,8 +4,8 @@ class PromptJob < ApplicationRecord
   has_many :plan_llm_models, through: :plan
   has_many :available_llm_models, through: :plan, source: :llm_models
 
-  has_many :prompt_job_llm_models, dependent: :destroy
-  has_many :llm_models, through: :prompt_job_llm_models
+  has_many :atom_prompt_jobs, dependent: :destroy
+  has_many :llm_models, through: :atom_prompt_jobs
 
   validates :prompt, presence: true, length: { minimum: 10, maximum: 10000 }
   validates :llm_models, presence: { message: "must include at least one model" }

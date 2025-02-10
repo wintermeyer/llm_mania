@@ -54,6 +54,12 @@ gem "friendly_id", "~> 5.5"
 # Use money-rails for handling currencies
 gem "money-rails", "~> 1.15"
 
+# Add ollama-ai gem
+gem "ollama-ai", "~> 1.3.0"
+
+# Add AASM for state machine
+gem "aasm", "~> 5.5"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
