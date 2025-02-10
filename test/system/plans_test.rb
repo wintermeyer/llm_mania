@@ -26,7 +26,6 @@ class PlansTest < ApplicationSystemTestCase
 
   test "visiting the index displays prices in EUR format" do
     visit plans_url
-    
     # Verify prices are displayed with EUR symbol and correct format
     assert_text "€8.99" # Basic Plan
     assert_text "€24.99" # Pro Plan
@@ -72,7 +71,6 @@ class PlansTest < ApplicationSystemTestCase
     fill_in "Description", with: "This is a premium plan with advanced features"
     fill_in "Price", with: "49.99"
     check "Is active"
-    
     click_on "Create plan"
 
     assert_text "Plan was successfully created"
@@ -96,7 +94,6 @@ class PlansTest < ApplicationSystemTestCase
     fill_in "Name", with: "Updated Plan"
     fill_in "Description", with: "This is an updated plan description"
     fill_in "Price", with: "29.99"
-    
     click_on "Update plan"
 
     assert_text "Plan was successfully updated"
@@ -107,7 +104,6 @@ class PlansTest < ApplicationSystemTestCase
   test "destroying a plan as admin" do
     sign_in @admin
     visit plan_url(@plan)
-    
     accept_confirm do
       click_on "Delete", match: :first
     end

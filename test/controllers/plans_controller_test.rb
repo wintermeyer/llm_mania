@@ -97,7 +97,6 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   test "should not update plan when regular user" do
     sign_in @regular_user
     original_name = @plan.name
-    
     patch plan_url(@plan), params: { plan: {
       name: "Updated Plan",
       description: "This is an updated plan description",
@@ -105,7 +104,6 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
       is_active: false
     } }
     assert_redirected_to root_url
-    
     @plan.reload
     assert_equal original_name, @plan.name
   end
