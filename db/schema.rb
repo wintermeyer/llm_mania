@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_122145) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_130014) do
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -59,6 +59,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_122145) do
     t.index ["slug"], name: "index_plans_on_slug", unique: true
   end
 
+  create_table "prompt_jobs", force: :cascade do |t|
+    t.text "prompt"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_prompt_jobs_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -77,7 +85,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_122145) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.boolean "is_admin", default: false, null: false
-    t.integer "plan_id", null: false
+    t.integer "plan_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["plan_id"], name: "index_users_on_plan_id"
@@ -86,5 +94,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_122145) do
 
   add_foreign_key "plan_llm_models", "llm_models"
   add_foreign_key "plan_llm_models", "plans"
+  add_foreign_key "prompt_jobs", "users"
   add_foreign_key "users", "plans"
 end

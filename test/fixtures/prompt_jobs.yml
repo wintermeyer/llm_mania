@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  prompt: "Write a function that calculates the Fibonacci sequence up to n terms."
+  user: user_one
+
+two:
+  prompt: "Create a Rails model with validations for email and password fields."
+  user: user_two

@@ -6,6 +6,9 @@ class User < ApplicationRecord
          :trackable, :confirmable
 
   belongs_to :plan, optional: true
+  has_many :prompt_jobs, dependent: :destroy
+  has_many :plan_llm_models, through: :plan
+  has_many :available_llm_models, through: :plan, source: :llm_models
 
   validates :email, presence: true, uniqueness: true,
                    format: { with: URI::MailTo::EMAIL_REGEXP }

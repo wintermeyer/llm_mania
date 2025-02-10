@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :prompt_jobs
   resources :plans
   resources :llm_models
   devise_for :users

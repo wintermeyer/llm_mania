@@ -77,4 +77,36 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal custom_plan, user.reload.plan
   end
+
+  test "should have access to plan's LLM models" do
+    user = User.new(
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123"
+    )
+    user.skip_confirmation!
+    user.plan = plans(:basic)
+    user.save!
+
+    llm_model = llm_models(:one)
+    user.plan.llm_models << llm_model
+
+    assert_includes user.available_llm_models, llm_model
+  end
+
+  test "should have access to plan's LLM models through plan_llm_models" do
+    user = User.new(
+      email: "test2@example.com",
+      password: "password123",
+      password_confirmation: "password123"
+    )
+    user.skip_confirmation!
+    user.plan = plans(:basic)
+    user.save!
+
+    llm_model = llm_models(:one)
+    plan_llm_model = user.plan.plan_llm_models.create!(llm_model: llm_model)
+
+    assert_includes user.plan_llm_models, plan_llm_model
+  end
 end

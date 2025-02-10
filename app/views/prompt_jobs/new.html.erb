@@ -1,0 +1,9 @@
+<% content_for :title, "New prompt job" %>
+
+<div class="md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">New prompt job</h1>
+
+  <%= render "form", prompt_job: @prompt_job %>
+
+  <%= link_to "Back to prompt jobs", prompt_jobs_path, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+</div>
