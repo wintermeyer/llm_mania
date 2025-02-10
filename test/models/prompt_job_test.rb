@@ -11,11 +11,10 @@ class PromptJobTest < ActiveSupport::TestCase
   test "should be valid with valid attributes" do
     @plan.llm_models << @llm_model
     @user.update!(plan: @plan)
-    
     prompt_job = PromptJob.new(
       prompt: "Write a function to calculate prime numbers up to n",
       user: @user,
-      llm_models: [@llm_model]
+      llm_models: [ @llm_model ]
     )
     assert prompt_job.valid?
   end
@@ -41,7 +40,7 @@ class PromptJobTest < ActiveSupport::TestCase
     prompt_job = PromptJob.create!(
       prompt: "Write a function to calculate prime numbers up to n",
       user: @user,
-      llm_models: [@llm_model]
+      llm_models: [ @llm_model ]
     )
 
     assert_includes prompt_job.available_llm_models, @llm_model
@@ -53,7 +52,7 @@ class PromptJobTest < ActiveSupport::TestCase
     prompt_job = PromptJob.create!(
       prompt: "Write a function to calculate prime numbers up to n",
       user: @user,
-      llm_models: [@llm_model]
+      llm_models: [ @llm_model ]
     )
 
     assert_equal @plan, prompt_job.plan
@@ -71,11 +70,10 @@ class PromptJobTest < ActiveSupport::TestCase
   test "should not allow LLM models not in user's plan" do
     other_model = llm_models(:two)
     @user.update!(plan: @plan)
-    
     prompt_job = PromptJob.new(
       prompt: "Write a function to calculate prime numbers up to n",
       user: @user,
-      llm_models: [other_model]
+      llm_models: [ other_model ]
     )
     assert_not prompt_job.valid?
     assert_includes prompt_job.errors[:llm_models], "includes models that are not available in your plan: #{other_model.name}"

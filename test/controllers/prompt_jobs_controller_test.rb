@@ -39,7 +39,7 @@ class PromptJobsControllerTest < ActionDispatch::IntegrationTest
       post prompt_jobs_url, params: {
         prompt_job: {
           prompt: "New test prompt that is long enough",
-          llm_model_ids: [@llm_model.id]
+          llm_model_ids: [ @llm_model.id ]
         }
       }
     end
