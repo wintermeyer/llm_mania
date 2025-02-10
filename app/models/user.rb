@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true,
                    format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  attribute :plan_id, :integer, default: -> { Plan.default.id }
+
   # Check if user is an admin
   def admin?
     is_admin
