@@ -19,4 +19,4 @@ admin:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   is_admin: true
-  plan: enterprise
+  plan: pro

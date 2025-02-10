@@ -50,8 +50,12 @@ class PlansController < ApplicationController
 
   # DELETE /plans/1
   def destroy
-    @plan.destroy
-    redirect_to plans_url, notice: "Plan was successfully destroyed."
+    if @plan.users.exists?
+      redirect_to plans_url, alert: "Cannot delete record because dependent users exist"
+    else
+      @plan.destroy
+      redirect_to plans_url, notice: "Plan was successfully destroyed."
+    end
   end
 
   private
@@ -62,6 +66,6 @@ class PlansController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def plan_params
-      params.require(:plan).permit(:name, :price, :is_active, :description, llm_model_ids: [])
+      params.require(:plan).permit(:name, :price, :is_active, :description, :is_default, llm_model_ids: [])
     end
 end

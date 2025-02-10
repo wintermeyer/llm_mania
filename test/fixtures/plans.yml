@@ -6,6 +6,7 @@ basic:
   is_active: true
   slug: basic-plan
   description: Perfect for individuals and small projects. Includes essential features for getting started.
+  is_default: false
 
 pro:
   name: Pro Plan
@@ -13,6 +14,7 @@ pro:
   is_active: true
   slug: pro-plan
   description: Ideal for growing businesses. Advanced features and priority support included.
+  is_default: false
 
 enterprise:
   name: Enterprise Plan
@@ -20,3 +22,4 @@ enterprise:
   is_active: false
   slug: enterprise-plan
   description: Custom solutions for large organizations. Unlimited resources and dedicated support team.
+  is_default: false

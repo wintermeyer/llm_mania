@@ -15,9 +15,16 @@ class Plan < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :is_active, inclusion: { in: [ true, false ] }
   validates :description, presence: true, length: { minimum: 10, maximum: 1000 }
+  validates :is_default, inclusion: { in: [ true, false ] }
+  validate :only_one_default_plan
 
   # Scope for active plans
   scope :active, -> { where(is_active: true) }
+
+  # Class method to get the default plan
+  def self.default
+    find_by(is_default: true)
+  end
 
   # Customize the slug generation
   def normalize_friendly_id(text)
@@ -36,5 +43,17 @@ class Plan < ApplicationRecord
 
   def self.find_by_param(param)
     find_by!(slug: param)
+  end
+
+  private
+
+  def only_one_default_plan
+    return unless is_default?
+    return if persisted? && !is_default_changed?
+
+    other_default = Plan.where(is_default: true).where.not(id: id).exists?
+    if other_default
+      errors.add(:is_default, "can only be set for one plan")
+    end
   end
 end

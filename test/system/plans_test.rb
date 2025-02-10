@@ -103,12 +103,20 @@ class PlansTest < ApplicationSystemTestCase
 
   test "destroying a plan as admin" do
     sign_in @admin
-    visit plan_url(@plan)
-    accept_confirm do
-      click_on "Delete", match: :first
+    visit plans_url
+
+    # Count plan rows (excluding header row)
+    assert_selector "tbody tr", count: 3
+
+    # Delete the enterprise plan which has no users
+    within("tr", text: "Enterprise Plan") do
+      accept_confirm do
+        click_on "Delete"
+      end
     end
 
     assert_text "Plan was successfully destroyed"
+    assert_selector "tbody tr", count: 2
   end
 
   test "regular user cannot access new plan page" do

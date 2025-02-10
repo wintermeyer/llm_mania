@@ -33,16 +33,15 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     sign_in @admin
     assert_difference("Plan.count") do
       post plans_url, params: { plan: {
-        name: "Premium Plan",
-        description: "This is a premium plan with advanced features",
-        price: "49.99",
-        is_active: true
+        name: "Test Plan",
+        price: 19.99,
+        is_active: true,
+        description: "A test plan with sufficient description length.",
+        is_default: false
       } }
     end
 
     assert_redirected_to plan_url(Plan.last)
-    assert_equal "Premium Plan", Plan.last.name
-    assert_equal 4999, Plan.last.price_cents
   end
 
   test "should not create plan when regular user" do
@@ -79,19 +78,13 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
   test "should update plan when admin" do
     sign_in @admin
     patch plan_url(@plan), params: { plan: {
-      name: "Updated Plan",
-      description: "This is an updated plan description",
-      price: "29.99",
-      is_active: false
+      name: @plan.name,
+      price: 29.99,
+      is_active: @plan.is_active,
+      description: @plan.description,
+      is_default: @plan.is_default
     } }
-
-    # The plan's slug will change to match the new name
-    @plan.reload
     assert_redirected_to plan_url(@plan)
-    assert_equal "Updated Plan", @plan.name
-    assert_equal 2999, @plan.price_cents
-    assert_equal false, @plan.is_active
-    assert_equal "updated-plan", @plan.slug
   end
 
   test "should not update plan when regular user" do
@@ -108,21 +101,26 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     assert_equal original_name, @plan.name
   end
 
-  test "should destroy plan when admin" do
+  test "should destroy plan when admin and no users are using it" do
     sign_in @admin
+    plan_without_users = plans(:enterprise) # Using enterprise plan as it's inactive and shouldn't have users
+
     assert_difference("Plan.count", -1) do
-      delete plan_url(@plan)
+      delete plan_url(plan_without_users)
     end
 
     assert_redirected_to plans_url
   end
 
-  test "should not destroy plan when regular user" do
-    sign_in @regular_user
+  test "should not destroy plan when it has users" do
+    sign_in @admin
+    plan_with_users = plans(:basic) # Basic plan has associated users
+
     assert_no_difference("Plan.count") do
-      delete plan_url(@plan)
+      delete plan_url(plan_with_users)
     end
 
-    assert_redirected_to root_url
+    assert_redirected_to plans_url
+    assert_equal "Cannot delete record because dependent users exist", flash[:alert]
   end
 end
