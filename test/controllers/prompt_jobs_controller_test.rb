@@ -6,6 +6,12 @@ class PromptJobsControllerTest < ActionDispatch::IntegrationTest
     @other_user = users(:user_two)
     @prompt_job = prompt_jobs(:one)
     @other_users_prompt_job = prompt_jobs(:two)
+    @llm_model = llm_models(:one)
+    @plan = plans(:basic)
+
+    # Set up user's plan with access to the LLM model
+    @plan.llm_models << @llm_model
+    @user.update!(plan: @plan)
   end
 
   test "should redirect to sign in when not authenticated" do
@@ -30,7 +36,12 @@ class PromptJobsControllerTest < ActionDispatch::IntegrationTest
   test "should create prompt_job" do
     sign_in @user
     assert_difference("PromptJob.count") do
-      post prompt_jobs_url, params: { prompt_job: { prompt: "New test prompt" } }
+      post prompt_jobs_url, params: {
+        prompt_job: {
+          prompt: "New test prompt that is long enough",
+          llm_model_ids: [@llm_model.id]
+        }
+      }
     end
 
     assert_redirected_to prompt_job_url(PromptJob.last)

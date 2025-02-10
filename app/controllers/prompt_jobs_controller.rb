@@ -14,11 +14,13 @@ class PromptJobsController < ApplicationController
   # GET /prompt_jobs/new
   def new
     @prompt_job = current_user.prompt_jobs.build
+    @available_llm_models = current_user.available_llm_models.order(:name)
   end
 
   # POST /prompt_jobs or /prompt_jobs.json
   def create
     @prompt_job = current_user.prompt_jobs.build(prompt_job_params)
+    @available_llm_models = current_user.available_llm_models.order(:name)
 
     respond_to do |format|
       if @prompt_job.save
@@ -45,6 +47,6 @@ class PromptJobsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def prompt_job_params
-    params.require(:prompt_job).permit(:prompt)
+    params.require(:prompt_job).permit(:prompt, llm_model_ids: [])
   end
 end

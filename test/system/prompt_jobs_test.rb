@@ -6,6 +6,12 @@ class PromptJobsTest < ApplicationSystemTestCase
     @other_user = users(:user_two)
     @prompt_job = prompt_jobs(:one)
     @other_users_prompt_job = prompt_jobs(:two)
+    @llm_model = llm_models(:one)
+    @plan = plans(:basic)
+
+    # Set up user's plan with access to the LLM model
+    @plan.llm_models << @llm_model
+    @user.update!(plan: @plan)
   end
 
   test "should redirect to sign in when not authenticated" do
@@ -28,6 +34,7 @@ class PromptJobsTest < ApplicationSystemTestCase
     click_on "New prompt job"
 
     fill_in "Prompt", with: "Test prompt for system test"
+    check "llm_model_#{@llm_model.id}"
     click_on "Create Prompt job"
 
     assert_text "Prompt job was successfully created"

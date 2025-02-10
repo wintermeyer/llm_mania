@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_130014) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_164954) do
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -59,12 +59,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_130014) do
     t.index ["slug"], name: "index_plans_on_slug", unique: true
   end
 
+  create_table "prompt_job_llm_models", force: :cascade do |t|
+    t.integer "prompt_job_id", null: false
+    t.integer "llm_model_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["llm_model_id"], name: "index_prompt_job_llm_models_on_llm_model_id"
+    t.index ["prompt_job_id", "llm_model_id"], name: "index_prompt_job_llm_models_uniqueness", unique: true
+    t.index ["prompt_job_id"], name: "index_prompt_job_llm_models_on_prompt_job_id"
+  end
+
   create_table "prompt_jobs", force: :cascade do |t|
     t.text "prompt"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_prompt_jobs_on_user_id"
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.integer "prompt_job_id", null: false
+    t.integer "llm_model_id", null: false
+    t.text "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["llm_model_id"], name: "index_responses_on_llm_model_id"
+    t.index ["prompt_job_id"], name: "index_responses_on_prompt_job_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,6 +114,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_130014) do
 
   add_foreign_key "plan_llm_models", "llm_models"
   add_foreign_key "plan_llm_models", "plans"
+  add_foreign_key "prompt_job_llm_models", "llm_models"
+  add_foreign_key "prompt_job_llm_models", "prompt_jobs"
   add_foreign_key "prompt_jobs", "users"
+  add_foreign_key "responses", "llm_models"
+  add_foreign_key "responses", "prompt_jobs"
   add_foreign_key "users", "plans"
 end
