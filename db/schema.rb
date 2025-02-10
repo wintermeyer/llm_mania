@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_075221) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_100917) do
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -34,6 +34,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_075221) do
     t.index ["name"], name: "index_llm_models_on_name", unique: true
     t.index ["ollama_name"], name: "index_llm_models_on_ollama_name", unique: true
     t.index ["slug"], name: "index_llm_models_on_slug", unique: true
+  end
+
+  create_table "plan_llm_models", force: :cascade do |t|
+    t.integer "plan_id", null: false
+    t.integer "llm_model_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["llm_model_id"], name: "index_plan_llm_models_on_llm_model_id"
+    t.index ["plan_id", "llm_model_id"], name: "index_plan_llm_models_on_plan_id_and_llm_model_id", unique: true
+    t.index ["plan_id"], name: "index_plan_llm_models_on_plan_id"
   end
 
   create_table "plans", force: :cascade do |t|
@@ -70,4 +80,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_075221) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "plan_llm_models", "llm_models"
+  add_foreign_key "plan_llm_models", "plans"
 end

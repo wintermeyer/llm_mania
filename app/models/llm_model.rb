@@ -2,6 +2,9 @@ class LlmModel < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  has_many :plan_llm_models, dependent: :destroy
+  has_many :plans, through: :plan_llm_models
+
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true,
                   format: { with: /\A[a-z0-9-]+\z/, message: "only allows lowercase letters, numbers, and hyphens" }

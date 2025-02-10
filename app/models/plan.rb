@@ -5,6 +5,9 @@ class Plan < ApplicationRecord
   # Configure money-rails
   monetize :price_cents, as: :price, with_currency: :eur
 
+  has_many :plan_llm_models, dependent: :destroy
+  has_many :llm_models, through: :plan_llm_models
+
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true,
                   format: { with: /\A[a-z0-9-]+\z/, message: "only allows lowercase letters, numbers, and hyphens" }
