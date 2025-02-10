@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_09_154656) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_075221) do
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -34,6 +34,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_154656) do
     t.index ["name"], name: "index_llm_models_on_name", unique: true
     t.index ["ollama_name"], name: "index_llm_models_on_ollama_name", unique: true
     t.index ["slug"], name: "index_llm_models_on_slug", unique: true
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.boolean "is_active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "price_cents", default: 0, null: false
+    t.text "description"
+    t.index ["name"], name: "index_plans_on_name", unique: true
+    t.index ["slug"], name: "index_plans_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|

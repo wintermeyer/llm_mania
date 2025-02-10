@@ -1,0 +1,22 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+basic:
+  name: Basic Plan
+  price_cents: 899
+  is_active: true
+  slug: basic-plan
+  description: Perfect for individuals and small projects. Includes essential features for getting started.
+
+pro:
+  name: Pro Plan
+  price_cents: 2499
+  is_active: true
+  slug: pro-plan
+  description: Ideal for growing businesses. Advanced features and priority support included.
+
+enterprise:
+  name: Enterprise Plan
+  price_cents: 9999
+  is_active: false
+  slug: enterprise-plan
+  description: Custom solutions for large organizations. Unlimited resources and dedicated support team.

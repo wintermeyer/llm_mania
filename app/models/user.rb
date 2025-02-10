@@ -7,4 +7,9 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true,
                    format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  # Check if user is an admin
+  def admin?
+    is_admin
+  end
 end
