@@ -1,9 +1,23 @@
-<% content_for :title, "New prompt job" %>
+<% content_for :title, "New Prompt Job" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New prompt job</h1>
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-base font-semibold leading-6 text-gray-900">New Prompt Job</h1>
+      <p class="mt-2 text-sm text-gray-700">Create a new prompt job to generate text with an LLM model.</p>
+    </div>
+  </div>
 
-  <%= render "form", prompt_job: @prompt_job %>
+  <div class="mt-8">
+    <%= render "form", prompt_job: @prompt_job %>
+  </div>
 
-  <%= link_to "Back to prompt jobs", prompt_jobs_path, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <div class="mt-6">
+    <%= button_to prompt_jobs_path, method: :get, class: "inline-flex items-center gap-x-2 rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" do %>
+      <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+      </svg>
+      Back to Prompt Jobs
+    <% end %>
+  </div>
 </div>

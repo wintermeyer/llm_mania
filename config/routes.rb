@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :prompt_jobs
+  resources :prompt_jobs, except: [ :edit, :update ]
   resources :plans
   resources :llm_models
   devise_for :users

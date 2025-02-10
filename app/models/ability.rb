@@ -15,13 +15,14 @@ class Ability
       can :manage, User, id: user.id
       can :read, LlmModel, is_active: true
       can :read, Plan, is_active: true
+
+      # Users can read and delete their own prompt jobs
+      can [ :read, :create, :destroy ], PromptJob, user_id: user.id
     else
+      # Non-logged in users can only read active models and plans
       can :read, LlmModel, is_active: true
       can :read, Plan, is_active: true
     end
-
-    # Everyone can read public content
-    can :read, :all
 
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
