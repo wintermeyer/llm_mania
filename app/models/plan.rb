@@ -6,7 +6,7 @@ class Plan < ApplicationRecord
   monetize :price_cents, as: :price, with_currency: :eur
 
   has_many :plan_llm_models, dependent: :destroy
-  has_many :llm_models, through: :plan_llm_models
+  has_many :llm_models, -> { order(:name) }, through: :plan_llm_models
 
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true,
