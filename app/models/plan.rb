@@ -7,6 +7,7 @@ class Plan < ApplicationRecord
 
   has_many :plan_llm_models, dependent: :destroy
   has_many :llm_models, -> { order(:name) }, through: :plan_llm_models
+  has_many :users, dependent: :restrict_with_error
 
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true,

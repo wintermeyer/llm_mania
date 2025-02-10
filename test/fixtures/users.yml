@@ -5,15 +5,18 @@ user_one:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   is_admin: false
+  plan: basic
 
 user_two:
   email: user2@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   is_admin: false
+  plan: pro
 
 admin:
   email: admin@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   is_admin: true
+  plan: enterprise
