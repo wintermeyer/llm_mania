@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class MobileNavigationTest < ApplicationSystemTestCase
+class NavigationTest < ApplicationSystemTestCase
   test "can toggle mobile navigation menu" do
     # Set a mobile device viewport
     page.driver.browser.manage.window.resize_to(375, 812) # iPhone X dimensions
@@ -33,5 +33,47 @@ class MobileNavigationTest < ApplicationSystemTestCase
     menu = find("#mobile-navigation", visible: false)
     assert_equal "display: none;", menu["style"]
     assert_not_predicate menu, :visible?
+  end
+
+  test "mobile menu closes when clicking outside" do
+    # Set a mobile device viewport
+    page.driver.browser.manage.window.resize_to(375, 812)
+
+    visit root_path
+
+    # Open the menu
+    find('button[aria-controls="mobile-navigation"]', text: "Open sidebar").click
+
+    # Menu should be visible
+    menu = find("#mobile-navigation")
+    assert_equal "display: block;", menu["style"]
+    assert_predicate menu, :visible?
+
+    # Click outside the menu by clicking on the body element
+    page.execute_script("document.body.click()")
+
+    # Menu should be hidden
+    menu = find("#mobile-navigation", visible: false)
+    assert_equal "display: none;", menu["style"]
+    assert_not_predicate menu, :visible?
+  end
+
+  test "desktop shows static sidebar" do
+    # Set a desktop viewport
+    page.driver.browser.manage.window.resize_to(1200, 800)
+
+    visit root_path
+
+    # Mobile menu should not be visible
+    assert_no_selector("#mobile-navigation", visible: true)
+
+    # Desktop sidebar should be visible
+    within("div.lg\\:fixed") do
+      assert_text "Dashboard"
+      assert_text "Team"
+    end
+
+    # Hamburger menu button should not be visible
+    assert_no_selector('button[aria-controls="mobile-navigation"]', visible: true)
   end
 end

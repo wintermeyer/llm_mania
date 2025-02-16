@@ -48,4 +48,23 @@ class UserMenuTest < ApplicationSystemTestCase
     # Menu should be hidden again
     assert_selector 'div[data-dropdown-target="menu"]', visible: false
   end
+
+  test "menu closes when clicking outside" do
+    # Set desktop viewport
+    page.driver.browser.manage.window.resize_to(1200, 800)
+
+    visit root_path
+
+    # Open the menu
+    find("#user-menu-button", text: "Tom Cook").click
+
+    # Menu should be visible
+    assert_selector 'div[data-dropdown-target="menu"]', visible: true
+
+    # Click outside the menu (on the main content area)
+    find("main.py-10").click
+
+    # Menu should be hidden
+    assert_selector 'div[data-dropdown-target="menu"]', visible: false
+  end
 end

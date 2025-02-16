@@ -11,6 +11,28 @@ export default class extends Controller {
   connect() {
     // Ensure menu starts hidden
     this.mobileMenuTarget.style.display = 'none'
+
+    // Add click event listener to handle clicks outside the menu
+    document.addEventListener('click', this.handleOutsideClick.bind(this))
+  }
+
+  disconnect() {
+    // Clean up event listener when controller is disconnected
+    document.removeEventListener('click', this.handleOutsideClick.bind(this))
+  }
+
+  /**
+   * Handles clicks outside the navigation menu
+   * @param {Event} event - The click event
+   */
+  handleOutsideClick(event) {
+    const menu = this.mobileMenuTarget
+    const isVisible = menu.style.display === "block"
+
+    // Check if the click was outside the menu and the menu is visible
+    if (isVisible && !menu.contains(event.target) && !event.target.closest('[data-action*="navigation#toggleSidebar"]')) {
+      this.toggleSidebar(event)
+    }
   }
 
   /**
@@ -28,7 +50,9 @@ export default class extends Controller {
 
     // Update aria-expanded on the clicked button
     const button = event.currentTarget
-    button.setAttribute("aria-expanded", isHidden)
+    if (button) {
+      button.setAttribute("aria-expanded", isHidden)
+    }
   }
 
   showMobileMenu() {
