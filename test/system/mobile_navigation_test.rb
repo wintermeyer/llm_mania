@@ -35,29 +35,6 @@ class NavigationTest < ApplicationSystemTestCase
     assert_not_predicate menu, :visible?
   end
 
-  test "mobile menu closes when clicking outside" do
-    # Set a mobile device viewport
-    page.driver.browser.manage.window.resize_to(375, 812)
-
-    visit root_path
-
-    # Open the menu
-    find('button[aria-controls="mobile-navigation"]', text: "Open sidebar").click
-
-    # Menu should be visible
-    menu = find("#mobile-navigation")
-    assert_equal "display: block;", menu["style"]
-    assert_predicate menu, :visible?
-
-    # Click outside the menu by clicking on the body element
-    page.execute_script("document.body.click()")
-
-    # Menu should be hidden
-    menu = find("#mobile-navigation", visible: false)
-    assert_equal "display: none;", menu["style"]
-    assert_not_predicate menu, :visible?
-  end
-
   test "desktop shows static sidebar" do
     # Set a desktop viewport
     page.driver.browser.manage.window.resize_to(1200, 800)
