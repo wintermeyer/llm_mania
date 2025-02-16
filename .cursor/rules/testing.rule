@@ -1,0 +1,46 @@
+name: testing-rules
+description: Testing standards for Rails 8
+glob: test/**/*.rb
+
+---
+When writing tests:
+
+1. Test Organization
+- Use appropriate test type (unit, integration, system)
+- Follow Rails testing directory structure
+- Keep tests focused and atomic
+- Use descriptive test names
+
+2. FactoryBot Usage
+- Keep factories minimal
+- Use traits for variations
+- Use sequences for unique values
+- Follow factory naming conventions
+- Test factories themselves
+
+3. System Tests
+- Use Capybara best practices
+- Test JavaScript interactions
+- Test responsive behavior
+- Test Turbo and Stimulus features
+- Use proper screen sizes
+
+4. Test Data
+- Don't use fixtures
+- Use FactoryBot
+- Clean up test data
+- Use transactional fixtures
+- Avoid database-specific features
+
+5. Performance
+- Use parallel testing
+- Keep tests fast
+- Avoid unnecessary database queries
+- Use proper setup and teardown
+
+6. Coverage
+- Test happy paths
+- Test edge cases
+- Test error conditions
+- Test security concerns
+- Test accessibility features 

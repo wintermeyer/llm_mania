@@ -1,0 +1,54 @@
+name: model-rules
+description: Rails Model Standards
+glob: app/models/**/*.rb
+
+---
+When working with models:
+
+1. Model Organization
+- Follow the database schema in docs/database_architecture.md
+- Keep models focused and cohesive
+- Use concerns for shared functionality
+- Follow Rails conventions
+
+2. Validations
+- Validate all necessary attributes
+- Use built-in validators when possible
+- Create custom validators when needed
+- Keep validation messages clear
+- Test all validations
+
+3. Associations
+- Define all relationships
+- Use proper association types
+- Set appropriate dependencies
+- Use counter_cache when needed
+- Use touch: true when appropriate
+
+4. Callbacks
+- Use callbacks sparingly
+- Keep callbacks focused
+- Consider using service objects
+- Test callback side effects
+- Document complex callbacks
+
+5. Scopes and Queries
+- Use scopes for common queries
+- Keep queries optimized
+- Use eager loading
+- Avoid N+1 queries
+- Test query performance
+
+6. Enums
+- Use enums for status fields
+- Define enum values clearly
+- Use prefix/suffix when needed
+- Test enum transitions
+- Document enum meanings
+
+7. Security
+- Use attr_accessible/strong parameters
+- Protect sensitive attributes
+- Validate user input
+- Use secure defaults
+- Follow OWASP guidelines 
