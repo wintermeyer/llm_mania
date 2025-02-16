@@ -1,0 +1,145 @@
+---
+name: i18n
+description: Internationalization (I18n) standards for Rails application with automatic German translations
+glob: app/**/*.{rb,erb}
+
+---
+When working with any text content in the application, follow these I18n guidelines:
+
+1. View Templates (ERB)
+- Use I18n.t or t helper for all user-facing text
+- Structure translations hierarchically (e.g., `en.views.users.index.title`)
+- Include HTML tags in translation files, not in views
+- Use interpolation for dynamic content: `t('.welcome', name: @user.name)`
+- Add translation hints for context when needed
+- Always provide German translations for every English text
+
+2. Controllers
+- Use I18n for all flash messages
+- Structure as `en.controllers.{controller_name}.{action}.{message_type}`
+- Example: `flash[:notice] = t('.success')` instead of hardcoded text
+- Include all status messages in locale files
+- Use interpolation for dynamic content
+- Provide German translations for all flash messages
+
+3. Models
+- Use I18n for all validation messages
+- Use I18n for model names and attribute names
+- Structure as `en.activerecord.{type}.{model}.{attribute}`
+- Include error messages in locale files
+- Example: `validates :email, presence: { message: I18n.t('validations.email.required') }`
+- Include German translations for all model-related text
+
+4. Mailers
+- Use I18n for email subjects and content
+- Structure as `en.mailers.{mailer_name}.{action}.{field}`
+- Include all email content in locale files
+- Provide German translations for all email content
+
+5. Best Practices
+- Use YAML files for translations
+- Keep translations organized by component
+- Use nested structures for better organization
+- Include both English and German translations by default
+- Add translation hints for context
+- Use pluralization when needed
+- Consider gender-based translations where appropriate
+- Maintain consistent tone and formality in German translations (use "Sie" for formal address)
+
+6. File Structure Example:
+```yaml
+en:
+  views:
+    users:
+      index:
+        title: "Users"
+        new_user: "New User"
+  controllers:
+    users:
+      create:
+        success: "User was successfully created."
+        error: "Could not create user."
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        email: "Email Address"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "Email cannot be blank."
+
+de:
+  views:
+    users:
+      index:
+        title: "Benutzer"
+        new_user: "Neuer Benutzer"
+  controllers:
+    users:
+      create:
+        success: "Benutzer wurde erfolgreich erstellt."
+        error: "Benutzer konnte nicht erstellt werden."
+  activerecord:
+    models:
+      user: "Benutzer"
+    attributes:
+      user:
+        email: "E-Mail-Adresse"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "E-Mail-Adresse darf nicht leer sein."
+```
+
+7. Testing
+- Include translation tests for both English and German
+- Test missing translations in both languages
+- Test interpolation in both languages
+- Test pluralization rules (note that German has different pluralization rules)
+- Verify formal address consistency in German translations
+
+8. German Translation Guidelines
+- Use formal address ("Sie") by default unless specified otherwise
+- Follow German capitalization rules for nouns
+- Use proper German quotation marks („example")
+- Maintain consistent terminology across the application
+- Consider regional variations (if needed for Austria/Switzerland)
+- Use proper date/time formats for German locale
+- Example date format: DD.MM.YYYY
+- Example time format: HH:mm Uhr
+- Use German number format (comma as decimal separator)
+
+9. Automatic Translation Process
+- When adding new English text, always add the German equivalent
+- Follow these patterns for common UI elements:
+  * Submit -> Absenden
+  * Save -> Speichern
+  * Cancel -> Abbrechen
+  * Delete -> Löschen
+  * Edit -> Bearbeiten
+  * Back -> Zurück
+  * Next -> Weiter
+  * Previous -> Zurück
+  * Search -> Suchen
+  * Filter -> Filtern
+  * Sort -> Sortieren
+  * Menu -> Menü
+  * Settings -> Einstellungen
+  * Profile -> Profil
+  * Account -> Konto
+  * Sign in -> Anmelden
+  * Sign out -> Abmelden
+  * Register -> Registrieren
+  * Password -> Passwort
+  * Email -> E-Mail
+  * Username -> Benutzername
+  * Error -> Fehler
+  * Success -> Erfolg
+  * Warning -> Warnung
+  * Info -> Information
