@@ -26,7 +26,7 @@ erDiagram
         INTEGER max_llm_requests_per_day
         INTEGER priority
         INTEGER max_prompt_length
-        BOOLEAN allow_private_prompts
+        BOOLEAN private_prompts_allowed
         BOOLEAN active
         TIMESTAMP created_at
         TIMESTAMP updated_at
@@ -55,7 +55,7 @@ erDiagram
         UUID id PK
         UUID user_id FK
         TEXT text
-        BOOLEAN is_private
+        BOOLEAN private
         STRING status
         BOOLEAN hidden
         BOOLEAN flagged
@@ -75,8 +75,9 @@ erDiagram
     LLM_MODEL {
         UUID id PK
         STRING name
-        STRING provider
-        STRING api_endpoint
+        STRING slug
+        STRING ollama_model
+        INTEGER size
         BOOLEAN active
         TIMESTAMP created_at
         TIMESTAMP updated_at
@@ -155,6 +156,7 @@ Represents application users with their personal information and subscription st
 
 ### Subscription
 Defines different subscription tiers with their associated features and limitations.
+- `private_prompts_allowed`: Replaces `allow_private_prompts` to follow Rails boolean naming conventions
 
 ### Subscription History
 Tracks the history of user subscriptions over time.
@@ -164,6 +166,7 @@ Monitors user's daily LLM request usage for quota management.
 
 ### Prompt
 Stores user prompts sent to LLM models.
+- `private`: Replaces `is_private` to follow Rails boolean naming conventions
 - `status`: Enum (waiting, in_queue, processing, completed, failed)
 
 ### Prompt Report
@@ -173,6 +176,9 @@ Handles user reports for inappropriate prompts.
 
 ### LLM Model
 Defines available LLM models and their configurations.
+- `slug`: Unique identifier for the model (URL-friendly)
+- `ollama_model`: Name of the model in Ollama (e.g., "llama2", "mistral", etc.)
+- `size`: Size of the model in billions of parameters
 
 ### LLM Job
 Manages the processing of prompts by LLM models.
