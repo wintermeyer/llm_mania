@@ -21,4 +21,4 @@ FactoryBot.define do
       lang { :de }
     end
   end
-end 
+end
