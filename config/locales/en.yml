@@ -29,3 +29,8 @@
 
 en:
   hello: "Hello world"
+  pages:
+    home:
+      title: "Welcome to LLM Mania"
+      subtitle: "Your vanilla Rails 8.0 application is ready to go!"
+      content: "This is the home page."

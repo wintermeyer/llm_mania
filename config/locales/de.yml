@@ -1,0 +1,6 @@
+de:
+  pages:
+    home:
+      title: "Willkommen bei LLM Mania"
+      subtitle: "Ihre vanilla Rails 8.0 Anwendung ist einsatzbereit!"
+      content: "Dies ist die Startseite." 
