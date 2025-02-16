@@ -1,0 +1,24 @@
+name: database-structure
+description: Understand the database structure from the documentation
+glob: app/models/**/*.rb
+
+---
+When working with database models or database-related code, you must first read and understand the database architecture documented in `docs/database_architecture.md`. This file contains the complete Entity Relationship Diagram (ERD) and descriptions of all entities in the system.
+
+Key points to consider:
+1. All IDs are UUIDs
+2. All models have timestamps (created_at, updated_at)
+3. Understand the relationships between entities:
+   - User subscription management (User -> Subscription -> Subscription History)
+   - Prompt processing flow (Prompt -> LLM Job -> Response)
+   - Usage tracking (Daily Usage)
+   - Content moderation (Prompt Report)
+   - User feedback (Rating)
+
+When generating or modifying database-related code:
+1. Follow the schema defined in the ERD
+2. Maintain all specified relationships
+3. Include all required fields
+4. Respect data types (especially enums and foreign keys)
+5. Consider subscription limitations when dealing with prompts and LLM requests 
+6. Update the database schema in `docs/database_architecture.md` when making changes
