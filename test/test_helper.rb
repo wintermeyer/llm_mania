@@ -43,6 +43,10 @@ class ActionDispatch::SystemTestCase
 
   setup do
     Warden.test_mode!
+    Warden.test_reset!
+    Warden.on_next_request do |proxy|
+      proxy.raw_session[:_csrf_token] = "test_csrf_token"
+    end
   end
 
   teardown do

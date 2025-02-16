@@ -2,8 +2,8 @@ require "application_system_test_case"
 
 class UserMenuTest < ApplicationSystemTestCase
   setup do
-    @user = create(:user, first_name: "Tom", last_name: "Cook")
-    sign_in @user
+    @user = create(:user, first_name: "Tom", last_name: "Cook", gender: "male", email: "tom.cook@example.com", password: "password123")
+    login_as(@user, scope: :user)
   end
 
   test "can toggle user menu on mobile" do
@@ -43,8 +43,8 @@ class UserMenuTest < ApplicationSystemTestCase
     # Menu should be visible with specific menu items
     assert_selector 'div[data-dropdown-target="menu"]', visible: true
     within('div[data-dropdown-target="menu"]') do
-      assert_text "Your profile"
-      assert_text "Sign out"
+      assert_text I18n.t("devise.shared.navigation.your_profile")
+      assert_text I18n.t("devise.shared.navigation.sign_out")
     end
 
     # Click again to close
@@ -74,11 +74,11 @@ class UserMenuTest < ApplicationSystemTestCase
   end
 
   test "shows sign in and register links when not logged in" do
-    sign_out @user
+    logout(:user)
     visit root_path
 
-    assert_link "Sign in", href: new_user_session_path
-    assert_link "Register", href: new_user_registration_path
+    assert_link I18n.t("devise.shared.navigation.sign_in"), href: new_user_session_path
+    assert_link I18n.t("devise.shared.navigation.register"), href: new_user_registration_path
     assert_no_selector "#user-menu-button"
   end
 end
