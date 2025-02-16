@@ -21,7 +21,17 @@ module LlmMania
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "Berlin"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Customize generator defaults
+    config.generators do |g|
+      g.scaffold_controller :scaffold_controller
+      g.jbuilder false
+      g.resource_route true
+      g.test_framework :test_unit, fixture: false, factory_bot: true, factory_bot_dir: "test/factories"
+      g.helper true
+      g.assets false
+    end
   end
 end
