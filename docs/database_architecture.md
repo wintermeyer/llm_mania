@@ -12,8 +12,8 @@ erDiagram
         STRING last_name
         STRING email UNIQUE
         STRING password_digest
-        ENUM(gender) gender "male, female, other"
-        ENUM(role) role "user, admin"
+        STRING gender "enum: male, female, other"
+        STRING role "enum: user, admin"
         BOOLEAN active
         UUID current_subscription_id FK
         TIMESTAMP created_at
@@ -56,7 +56,7 @@ erDiagram
         UUID user_id FK
         TEXT text
         BOOLEAN is_private
-        ENUM(status) status "waiting, in_queue, processing, completed, failed"
+        STRING status "enum: waiting, in_queue, processing, completed, failed"
         BOOLEAN hidden
         BOOLEAN flagged
         TIMESTAMP created_at
@@ -66,8 +66,8 @@ erDiagram
     PROMPT_REPORT {
         UUID id PK
         UUID prompt_id FK
-        UUID user_id FK NULLABLE
-        ENUM(reason) reason "spam, offensive, nsfw, other"
+        UUID user_id FK "nullable"
+        STRING reason "enum: spam, offensive, nsfw, other"
         TIMESTAMP created_at
         TIMESTAMP updated_at
     }
@@ -88,7 +88,7 @@ erDiagram
         UUID llm_model_id FK
         INTEGER priority
         INTEGER position
-        ENUM(status) status "queued, processing, completed, failed"
+        STRING status "enum: queued, processing, completed, failed"
         INTEGER response_time_ms
         TIMESTAMP created_at
         TIMESTAMP updated_at
