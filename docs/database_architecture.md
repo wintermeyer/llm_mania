@@ -14,6 +14,7 @@ erDiagram
         STRING password_digest
         STRING gender
         STRING role
+        STRING lang
         BOOLEAN active
         UUID current_subscription_id FK
         TIMESTAMP created_at
@@ -153,6 +154,7 @@ erDiagram
 Represents application users with their personal information and subscription status.
 - `gender`: Enum (male, female, other)
 - `role`: Enum (user, admin)
+- `lang`: String (en, de) - User's preferred interface language
 
 ### Subscription
 Defines different subscription tiers with their associated features and limitations.
