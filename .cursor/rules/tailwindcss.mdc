@@ -1,0 +1,5 @@
+---
+description: Use TailwindCSS
+globs: 
+---
+Always use Tailwind CSS for all HTML layout and CSS things.

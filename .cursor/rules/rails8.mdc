@@ -1,0 +1,26 @@
+---
+description: Ruby on Rails 8 project with Ruby 3.4.1
+globs: "**/*.rb", "**/*.js", "**/*.html.erb", "**/*.css", "Gemfile", "Gemfile.lock"
+---
+# Ruby and Rails Version Requirements
+
+This is a Ruby on Rails 8 project that must adhere to the following version requirements:
+
+- Ruby version: 3.4.1
+- Rails version: 8.x
+- All Ruby code must be written in Ruby 3.4.1 syntax
+- JavaScript, HTML, and CSS files are exceptions to the Ruby version requirement
+
+## Guidelines
+
+1. All Ruby code must be compatible with Ruby 3.4.1
+2. Use modern Ruby 3.4.1 features and syntax where appropriate
+3. Ensure all gems are compatible with Rails 8.x
+4. JavaScript code should be modern and follow ES6+ standards
+5. Follow Rails 8 best practices and conventions
+
+## Files Affected
+
+- All `.rb` files must be Ruby 3.4.1 compliant
+- `Gemfile` and `Gemfile.lock` must specify correct versions
+- `.js`, `.html.erb`, and `.css` files are exempt from Ruby version requirements

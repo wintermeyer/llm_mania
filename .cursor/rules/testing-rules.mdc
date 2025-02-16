@@ -1,0 +1,23 @@
+---
+description: Allways run all tests and RuboCop
+globs: 
+---
+At the end of each coding session:
+
+1. Run the complete test suite:
+   ```bash
+   bin/rails test:all
+   ```
+
+2. Run RuboCop with GitHub format and auto correct:
+   ```bash
+   bundle exec rubocop --format github --auto-correct-all
+   ```
+
+This must be done:
+- Before committing changes
+- At the end of each coding session
+- After completing or fixing a feature
+- Before closing the project
+
+No changes should be considered complete until all tests pass and RuboCop shows no offenses. That is for any code in the Rails application!

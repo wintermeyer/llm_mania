@@ -1,0 +1,8 @@
+---
+description: Rails Controller Standards
+globs: app/controllers/**/*.rb
+---
+# Guidelines
+- Keep controllers skinny
+- Use before_action for repeating logic
+- Follow RESTful conventions

@@ -1,0 +1,5 @@
+---
+description: Always use bin/rails and never just rails
+globs:
+---
+When running a rails command always use `bin/rails` and never just `rails`.
