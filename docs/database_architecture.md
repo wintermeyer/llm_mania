@@ -156,7 +156,6 @@ Represents application users with their personal information and subscription st
 
 ### Subscription
 Defines different subscription tiers with their associated features and limitations.
-- `private_prompts_allowed`: Replaces `allow_private_prompts` to follow Rails boolean naming conventions
 
 ### Subscription History
 Tracks the history of user subscriptions over time.
