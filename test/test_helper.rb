@@ -26,6 +26,15 @@ end
 
 class ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+  include Warden::Test::Helpers
+
+  setup do
+    Warden.test_mode!
+  end
+
+  teardown do
+    Warden.test_reset!
+  end
 end
 
 class ActionDispatch::SystemTestCase
