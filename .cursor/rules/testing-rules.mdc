@@ -11,7 +11,7 @@ At the end of each coding session:
 
 2. Run RuboCop with GitHub format and auto correct:
    ```bash
-   bundle exec rubocop --format github --auto-correct-all
+   bundle exec rubocop --format github --autocorrect-all
    ```
 
 This must be done:

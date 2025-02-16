@@ -4,21 +4,11 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     email { Faker::Internet.unique.email }
     password { "password123" }
-    gender { User.genders.keys.sample }
-    role { :user }
-    lang { :en }
-    active { true }
-
-    trait :admin do
-      role { :admin }
-    end
-
-    trait :inactive do
-      active { false }
-    end
+    gender { %w[male female other].sample }
+    lang { "en" }
 
     trait :german do
-      lang { :de }
+      lang { "de" }
     end
   end
 end

@@ -1,6 +1,11 @@
 require "application_system_test_case"
 
 class UserMenuTest < ApplicationSystemTestCase
+  setup do
+    @user = create(:user, first_name: "Tom", last_name: "Cook")
+    sign_in @user
+  end
+
   test "can toggle user menu on mobile" do
     # Set mobile viewport (iPhone X)
     page.driver.browser.manage.window.resize_to(375, 812)
@@ -66,5 +71,14 @@ class UserMenuTest < ApplicationSystemTestCase
 
     # Menu should be hidden
     assert_selector 'div[data-dropdown-target="menu"]', visible: false
+  end
+
+  test "shows sign in and register links when not logged in" do
+    sign_out @user
+    visit root_path
+
+    assert_link "Sign in", href: new_user_session_path
+    assert_link "Register", href: new_user_registration_path
+    assert_no_selector "#user-menu-button"
   end
 end

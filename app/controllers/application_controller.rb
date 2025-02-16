@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :set_locale
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
 
@@ -19,5 +20,13 @@ class ApplicationController < ActionController::Base
 
     # Only return the locale if it's one we support
     preferred_language if I18n.available_locales.include?(preferred_language.to_sym)
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    permitted_keys = %i[first_name last_name gender lang]
+    devise_parameter_sanitizer.permit(:sign_up, keys: permitted_keys)
+    devise_parameter_sanitizer.permit(:account_update, keys: permitted_keys)
   end
 end
