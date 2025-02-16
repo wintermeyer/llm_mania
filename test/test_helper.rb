@@ -14,5 +14,12 @@ module ActiveSupport
     include FactoryBot::Syntax::Methods
 
     # Add more helper methods to be used by all tests here...
+    setup do
+      # Always use English in tests
+      I18n.locale = :en
+      I18n.default_locale = :en
+      Rails.application.config.i18n.default_locale = :en
+      Rails.application.config.i18n.locale = :en
+    end
   end
 end

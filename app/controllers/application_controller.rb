@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
+    return if Rails.env.test? # Skip locale detection in test environment
     I18n.locale = extract_locale_from_accept_language_header || I18n.default_locale
   end
 

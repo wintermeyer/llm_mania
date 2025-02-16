@@ -1,0 +1,44 @@
+---
+description: Testing Language Rule
+globs: 
+---
+All tests in this project must use English (`:en`) as the language. This ensures consistent and predictable test behavior.
+
+## Implementation Details
+
+1. The test environment is configured to always use English:
+   ```ruby
+   # In test/test_helper.rb
+   setup do
+     I18n.locale = :en
+     I18n.default_locale = :en
+     Rails.application.config.i18n.default_locale = :en
+     Rails.application.config.i18n.locale = :en
+   end
+   ```
+
+2. Locale detection is skipped in the test environment:
+   ```ruby
+   # In app/controllers/application_controller.rb
+   def set_locale
+     return if Rails.env.test? # Skip locale detection in test environment
+     I18n.locale = extract_locale_from_accept_language_header || I18n.default_locale
+   end
+   ```
+
+3. Test factories default to English:
+   ```ruby
+   # In test/factories/users.rb
+   factory :user do
+     # ...
+     lang { :en }
+     # ...
+   end
+   ```
+
+## Guidelines
+
+- All test assertions for translated text should use English translations
+- When testing language-specific features, use the `:german` trait in the user factory
+- Do not rely on browser language settings in tests
+- All test output and error messages should be in English 
