@@ -55,7 +55,7 @@ erDiagram
     PROMPT {
         UUID id PK
         UUID user_id FK
-        TEXT text
+        TEXT content
         BOOLEAN private
         STRING status
         BOOLEAN hidden
