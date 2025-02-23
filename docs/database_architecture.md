@@ -32,11 +32,10 @@ erDiagram
 
     USER_ROLE {
         UUID id PK
-        UUID user_id FK
-        UUID role_id FK
+        UUID user_id FK "unique with role_id"
+        UUID role_id FK "unique with user_id"
         TIMESTAMP created_at
         TIMESTAMP updated_at
-        UNIQUE(user_id, role_id)
     }
     
     SUBSCRIPTION {
@@ -63,12 +62,11 @@ erDiagram
 
     DAILY_USAGE {
         UUID id PK
-        UUID user_id FK
-        DATE date
+        UUID user_id FK "unique with date"
+        DATE date "unique with user_id"
         INTEGER llm_requests
         TIMESTAMP created_at
         TIMESTAMP updated_at
-        UNIQUE(user_id, date)
     }
 
     PROMPT {
@@ -85,12 +83,11 @@ erDiagram
 
     PROMPT_REPORT {
         UUID id PK
-        UUID prompt_id FK
-        UUID user_id FK
+        UUID prompt_id FK "unique with user_id"
+        UUID user_id FK "unique with prompt_id"
         STRING reason
         TIMESTAMP created_at
         TIMESTAMP updated_at
-        UNIQUE(prompt_id, user_id)
     }
 
     LLM {
@@ -125,22 +122,20 @@ erDiagram
 
     RATING {
         UUID id PK
-        UUID user_id FK
-        UUID response_id FK
+        UUID user_id FK "unique with response_id"
+        UUID response_id FK "unique with user_id"
         INTEGER score
         TEXT comment
         TIMESTAMP created_at
         TIMESTAMP updated_at
-        UNIQUE(user_id, response_id)
     }
 
     SUBSCRIPTION_LLM {
         UUID id PK
-        UUID subscription_id FK
-        UUID llm_id FK
+        UUID subscription_id FK "unique with llm_id"
+        UUID llm_id FK "unique with subscription_id"
         TIMESTAMP created_at
         TIMESTAMP updated_at
-        UNIQUE(subscription_id, llm_id)
     }
 
     %% Relationships
