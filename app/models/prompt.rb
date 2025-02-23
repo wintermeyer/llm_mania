@@ -5,8 +5,8 @@ class Prompt < ApplicationRecord
 
   validates :content, presence: true
   validates :status, presence: true, inclusion: { in: %w[waiting in_queue processing completed failed] }
-  validates :hidden, inclusion: { in: [true, false] }
-  validates :flagged, inclusion: { in: [true, false] }
+  validates :hidden, inclusion: { in: [ true, false ] }
+  validates :flagged, inclusion: { in: [ true, false ] }
 
   scope :private_prompts, -> { where(private: true) }
   scope :public_prompts, -> { where(private: false) }

@@ -14,5 +14,5 @@ class User < ApplicationRecord
   validates :password_digest, presence: true
   validates :gender, presence: true, inclusion: { in: %w[male female other] }
   validates :lang, presence: true, inclusion: { in: %w[en de] }
-  validates :active, inclusion: { in: [true, false] }
+  validates :active, inclusion: { in: [ true, false ] }
 end

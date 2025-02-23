@@ -9,6 +9,6 @@ class Subscription < ApplicationRecord
   validates :priority, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 3 }
   validates :max_prompt_length, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :price_cents, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :private_prompts_allowed, inclusion: { in: [true, false] }
-  validates :active, inclusion: { in: [true, false] }
+  validates :private_prompts_allowed, inclusion: { in: [ true, false ] }
+  validates :active, inclusion: { in: [ true, false ] }
 end
