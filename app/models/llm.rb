@@ -6,7 +6,7 @@ class Llm < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :ollama_model, presence: true, uniqueness: true
   validates :size, presence: true, numericality: { greater_than: 0 }
-  validates :active, inclusion: { in: [true, false] }
+  validates :active, inclusion: { in: [ true, false ] }
 
   scope :active, -> { where(active: true) }
 end

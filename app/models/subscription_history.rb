@@ -1,7 +1,7 @@
 class SubscriptionHistory < ApplicationRecord
   belongs_to :subscription
   belongs_to :user
-  has_one :current_user, class_name: 'User', foreign_key: 'current_subscription_id'
+  has_one :current_user, class_name: "User", foreign_key: "current_subscription_id"
 
   validates :start_date, presence: true
   validates :end_date, presence: true

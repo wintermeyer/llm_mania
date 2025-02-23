@@ -49,6 +49,11 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
+  # Use factory_bot for test data generation
+  gem "factory_bot_rails"
+  # Use faker for generating test data
+  gem "faker"
+
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
