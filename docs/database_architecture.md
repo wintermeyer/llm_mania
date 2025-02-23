@@ -13,12 +13,30 @@ erDiagram
         STRING email
         STRING password_digest
         STRING gender
-        STRING role
         STRING lang
         BOOLEAN active
         UUID current_subscription_id FK
+        UUID current_role_id FK
         TIMESTAMP created_at
         TIMESTAMP updated_at
+    }
+
+    ROLE {
+        UUID id PK
+        STRING name
+        STRING description
+        BOOLEAN active
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    USER_ROLE {
+        UUID id PK
+        UUID user_id FK
+        UUID role_id FK
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+        UNIQUE(user_id, role_id)
     }
     
     SUBSCRIPTION {
@@ -50,6 +68,7 @@ erDiagram
         INTEGER llm_requests
         TIMESTAMP created_at
         TIMESTAMP updated_at
+        UNIQUE(user_id, date)
     }
 
     PROMPT {
@@ -71,6 +90,7 @@ erDiagram
         STRING reason
         TIMESTAMP created_at
         TIMESTAMP updated_at
+        UNIQUE(prompt_id, user_id)
     }
 
     LLM {
@@ -111,6 +131,7 @@ erDiagram
         TEXT comment
         TIMESTAMP created_at
         TIMESTAMP updated_at
+        UNIQUE(user_id, response_id)
     }
 
     SUBSCRIPTION_LLM {
@@ -119,6 +140,7 @@ erDiagram
         UUID llm_id FK
         TIMESTAMP created_at
         TIMESTAMP updated_at
+        UNIQUE(subscription_id, llm_id)
     }
 
     %% Relationships
@@ -128,6 +150,9 @@ erDiagram
     USER ||--|{ DAILY_USAGE : tracks
     USER ||--|{ RATING : gives
     USER ||--|| SUBSCRIPTION_HISTORY : current_subscription
+    USER ||--|| ROLE : current_role
+    USER ||--|{ USER_ROLE : has
+    USER_ROLE }|--|| ROLE : belongs_to
 
     SUBSCRIPTION ||--|{ SUBSCRIPTION_HISTORY : has
     SUBSCRIPTION ||--|{ SUBSCRIPTION_LLM : supports
