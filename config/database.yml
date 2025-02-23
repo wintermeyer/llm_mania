@@ -5,37 +5,50 @@
 #   gem "sqlite3"
 #
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  username: postgres
+  password: postgres
+  host: localhost
 
 development:
   <<: *default
-  database: storage/development.sqlite3
+  database: llm_mania_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: storage/test.sqlite3
+  database: llm_mania_test
 
-
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
+# Store production database in a secure location with proper credentials
 production:
   primary:
     <<: *default
-    database: storage/production.sqlite3
+    database: llm_mania_production
+    username: <%= ENV['POSTGRES_USERNAME'] %>
+    password: <%= ENV['POSTGRES_PASSWORD'] %>
+    host: <%= ENV['POSTGRES_HOST'] %>
   cache:
     <<: *default
-    database: storage/production_cache.sqlite3
+    database: llm_mania_production_cache
     migrations_paths: db/cache_migrate
+    username: <%= ENV['POSTGRES_USERNAME'] %>
+    password: <%= ENV['POSTGRES_PASSWORD'] %>
+    host: <%= ENV['POSTGRES_HOST'] %>
   queue:
     <<: *default
-    database: storage/production_queue.sqlite3
+    database: llm_mania_production_queue
     migrations_paths: db/queue_migrate
+    username: <%= ENV['POSTGRES_USERNAME'] %>
+    password: <%= ENV['POSTGRES_PASSWORD'] %>
+    host: <%= ENV['POSTGRES_HOST'] %>
   cable:
     <<: *default
-    database: storage/production_cable.sqlite3
+    database: llm_mania_production_cable
     migrations_paths: db/cable_migrate
+    username: <%= ENV['POSTGRES_USERNAME'] %>
+    password: <%= ENV['POSTGRES_PASSWORD'] %>
+    host: <%= ENV['POSTGRES_HOST'] %>

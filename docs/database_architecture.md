@@ -15,7 +15,6 @@ erDiagram
         STRING gender
         STRING lang
         BOOLEAN active
-        UUID current_subscription_id FK
         UUID current_role_id FK
         TIMESTAMP created_at
         TIMESTAMP updated_at
@@ -134,7 +133,6 @@ erDiagram
     USER ||--|{ PROMPT_REPORT : can_report
     USER ||--|{ SUBSCRIPTION_HISTORY : has
     USER ||--|{ RATING : gives
-    USER ||--|| SUBSCRIPTION_HISTORY : current_subscription
     USER ||--|| ROLE : current_role
     USER ||--|{ USER_ROLE : has
     USER_ROLE }|--|| ROLE : belongs_to

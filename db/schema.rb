@@ -11,49 +11,109 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_02_23_154531) do
-# Could not dump table "daily_usages" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
 
+  create_table "llm_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "prompt_id", null: false
+    t.uuid "llm_id", null: false
+    t.integer "priority"
+    t.integer "position"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["llm_id"], name: "index_llm_jobs_on_llm_id"
+    t.index ["position"], name: "index_llm_jobs_on_position"
+    t.index ["prompt_id"], name: "index_llm_jobs_on_prompt_id"
+    t.index ["status"], name: "index_llm_jobs_on_status"
+  end
 
-# Could not dump table "llm_jobs" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
+  create_table "llms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "ollama_model"
+    t.integer "size"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_llms_on_name", unique: true
+    t.index ["ollama_model"], name: "index_llms_on_ollama_model", unique: true
+  end
 
+  create_table "prompt_reports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "prompt_id", null: false
+    t.uuid "user_id", null: false
+    t.string "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prompt_id"], name: "index_prompt_reports_on_prompt_id"
+    t.index ["user_id"], name: "index_prompt_reports_on_user_id"
+  end
 
-# Could not dump table "llms" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
+  create_table "prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.text "content"
+    t.boolean "private"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_prompts_on_status"
+    t.index ["user_id"], name: "index_prompts_on_user_id"
+  end
 
+  create_table "ratings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "response_id", null: false
+    t.uuid "user_id", null: false
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["response_id"], name: "index_ratings_on_response_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
 
-# Could not dump table "prompt_reports" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
+  create_table "responses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "llm_job_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["llm_job_id"], name: "index_responses_on_llm_job_id"
+  end
 
+  create_table "subscription_histories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "subscription_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_subscription_histories_on_subscription_id"
+    t.index ["user_id"], name: "index_subscription_histories_on_user_id"
+  end
 
-# Could not dump table "prompts" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
+  create_table "subscription_llms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "subscription_id", null: false
+    t.uuid "llm_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["llm_id"], name: "index_subscription_llms_on_llm_id"
+    t.index ["subscription_id"], name: "index_subscription_llms_on_subscription_id"
+  end
 
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.decimal "price"
+    t.integer "daily_prompt_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_subscriptions_on_name", unique: true
+  end
 
-# Could not dump table "ratings" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
-
-
-# Could not dump table "responses" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
-
-
-# Could not dump table "subscription_histories" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
-
-
-# Could not dump table "subscription_llms" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
-
-
-# Could not dump table "subscriptions" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
-
-
-# Could not dump table "users" because of following StandardError
-#   Unknown type 'uuid' for column 'id'
-
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email"
+  end
 
   add_foreign_key "llm_jobs", "llms"
   add_foreign_key "llm_jobs", "prompts"
@@ -67,5 +127,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_23_154531) do
   add_foreign_key "subscription_histories", "users"
   add_foreign_key "subscription_llms", "llms"
   add_foreign_key "subscription_llms", "subscriptions"
-  add_foreign_key "users", "current_subscriptions"
 end
