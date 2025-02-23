@@ -55,7 +55,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_23_154531) do
 #   Unknown type 'uuid' for column 'id'
 
 
-  add_foreign_key "daily_usages", "users"
   add_foreign_key "llm_jobs", "llms"
   add_foreign_key "llm_jobs", "prompts"
   add_foreign_key "prompt_reports", "prompts"

@@ -21,7 +21,7 @@ FactoryBot.define do
       after(:create) do |user|
         create_list(:prompt, 3, user: user)
       end
-    end 
+    end
 
     factory :admin_user, traits: [ :admin ]
     factory :inactive_user, traits: [ :inactive ]

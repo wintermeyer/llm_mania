@@ -60,15 +60,6 @@ erDiagram
         TIMESTAMP updated_at
     }
 
-    DAILY_USAGE {
-        UUID id PK
-        UUID user_id FK "unique with date"
-        DATE date "unique with user_id"
-        INTEGER llm_requests
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-
     PROMPT {
         UUID id PK
         UUID user_id FK
@@ -142,7 +133,6 @@ erDiagram
     USER ||--|{ PROMPT : has
     USER ||--|{ PROMPT_REPORT : can_report
     USER ||--|{ SUBSCRIPTION_HISTORY : has
-    USER ||--|{ DAILY_USAGE : tracks
     USER ||--|{ RATING : gives
     USER ||--|| SUBSCRIPTION_HISTORY : current_subscription
     USER ||--|| ROLE : current_role
@@ -155,7 +145,6 @@ erDiagram
     SUBSCRIPTION_HISTORY }|--|| SUBSCRIPTION : tracks
     SUBSCRIPTION_HISTORY }|--|| USER : belongs_to
 
-    DAILY_USAGE }|--|| USER : belongs_to
 
     PROMPT ||--|{ LLM_JOB : generates
     PROMPT ||--|{ PROMPT_REPORT : can_be_reported
