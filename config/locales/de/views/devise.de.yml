@@ -44,4 +44,36 @@ de:
       gender: "Geschlecht"
       email: "E-Mail"
       password: "Passwort"
-      remember_me: "Angemeldet bleiben" 
+      remember_me: "Angemeldet bleiben"
+    confirmations:
+      new:
+        title: "Bestätigungsanweisungen erneut senden"
+        resend_instructions: "Bestätigungsanweisungen erneut senden"
+        back_to_sign_in: "Zurück zur Anmeldung"
+    mailer:
+      confirmation_instructions:
+        subject: "Anleitung zur Bestätigung"
+        greeting: "Willkommen %{recipient}!"
+        instruction: "Du kannst deine Konto-E-Mail durch den untenstehenden Link bestätigen:"
+        action: "Mein Konto bestätigen"
+      reset_password_instructions:
+        subject: "Anleitung zum Zurücksetzen des Passworts"
+        greeting: "Hallo %{recipient}!"
+        instruction: "Jemand hat einen Link angefordert, um dein Passwort zu ändern. Du kannst dies über den untenstehenden Link tun."
+        action: "Mein Passwort ändern"
+        instruction_2: "Wenn du dies nicht angefordert hast, ignoriere bitte diese E-Mail."
+        instruction_3: "Dein Passwort wird nicht geändert, bis du auf den obigen Link zugreifst und ein neues erstellst."
+      unlock_instructions:
+        subject: "Anleitung zum Entsperren"
+        greeting: "Hallo %{recipient}!"
+        instruction: "Dein Konto wurde aufgrund einer übermäßigen Anzahl erfolgloser Anmeldeversuche gesperrt."
+        instruction_2: "Klicke auf den untenstehenden Link, um dein Konto zu entsperren:"
+        action: "Mein Konto entsperren"
+      email_changed:
+        subject: "E-Mail geändert"
+        greeting: "Hallo %{recipient}!"
+        message: "Wir kontaktieren dich, um dich darüber zu informieren, dass deine E-Mail-Adresse zu %{email} geändert wird."
+      password_change:
+        subject: "Passwort geändert"
+        greeting: "Hallo %{recipient}!"
+        message: "Wir kontaktieren dich, um dich darüber zu informieren, dass dein Passwort geändert wurde." 

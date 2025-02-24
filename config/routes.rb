@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   # Scope routes with locale
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    devise_for :users
+    devise_for :users, controllers: {
+      registrations: "users/registrations"
+    }
 
     # Defines the root path route ("/")
     root "pages#home"

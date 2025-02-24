@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class ProfileDropdownTest < ApplicationSystemTestCase
   setup do
-    @user = create(:user)
+    @user = create(:user, confirmed_at: Time.current)
     sign_in @user
   end
 

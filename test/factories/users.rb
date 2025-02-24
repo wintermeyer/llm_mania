@@ -10,6 +10,10 @@ FactoryBot.define do
     active { true }
     association :current_role, factory: :role
 
+    # Confirmable
+    confirmed_at { Time.current }
+    confirmation_sent_at { Time.current - 1.day }
+
     trait :admin do
       after(:create) do |user|
         admin_role = create(:role, name: "admin")
