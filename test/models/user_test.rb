@@ -37,10 +37,10 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors[:last_name], "can't be blank"
   end
 
-  test "should require password_digest" do
-    user = build(:user, password_digest: nil)
+  test "should require password" do
+    user = build(:user, password: nil)
     assert_not user.valid?
-    assert_includes user.errors[:password_digest], "can't be blank"
+    assert_includes user.errors[:password], "can't be blank"
   end
 
   test "should require valid gender" do

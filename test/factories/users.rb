@@ -3,7 +3,8 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     email { Faker::Internet.unique.email }
-    password_digest { Faker::Crypto.md5 }
+    password { "password123" }
+    password_confirmation { "password123" }
     gender { %w[male female other].sample }
     lang { %w[en de].sample }
     active { true }

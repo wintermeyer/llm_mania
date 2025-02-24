@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_24_161015) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_24_162633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -150,7 +150,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_24_161015) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "password_digest", null: false
     t.uuid "current_role_id"
     t.index ["current_role_id"], name: "index_users_on_current_role_id"
     t.index ["email"], name: "index_users_on_email"
@@ -173,4 +172,3 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_24_161015) do
   add_foreign_key "user_roles", "users"
   add_foreign_key "users", "roles", column: "current_role_id"
 end
-

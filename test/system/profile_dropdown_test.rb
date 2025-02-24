@@ -1,6 +1,11 @@
 require "application_system_test_case"
 
 class ProfileDropdownTest < ApplicationSystemTestCase
+  setup do
+    @user = create(:user)
+    sign_in @user
+  end
+
   test "clicking profile button toggles dropdown menu" do
     visit root_path
 
