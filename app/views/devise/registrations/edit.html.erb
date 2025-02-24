@@ -1,6 +1,15 @@
+<!--
+  This example requires updating your template:
+
+  ```
+  <html class="h-full bg-white">
+  <body class="h-full">
+  ```
+-->
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Edit Profile</h2>
+    <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Edit Profile</h2>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -8,26 +17,37 @@
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
-        <%= f.label :first_name, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <%= f.text_field :first_name, autofocus: true, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        <%= f.label :first_name, class: "block text-sm/6 font-medium text-gray-900" %>
+        <div class="mt-2">
+          <%= f.text_field :first_name, autofocus: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+        </div>
       </div>
 
       <div>
-        <%= f.label :last_name, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <%= f.text_field :last_name, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        <%= f.label :last_name, class: "block text-sm/6 font-medium text-gray-900" %>
+        <div class="mt-2">
+          <%= f.text_field :last_name, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+        </div>
       </div>
 
       <div>
-        <%= f.label :gender, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <%= f.select :gender, 
-            options_for_select([["Male", "male"], ["Female", "female"], ["Other", "other"]], resource.gender),
-            {},
-            class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        <%= f.label :gender, class: "block text-sm/6 font-medium text-gray-900" %>
+        <div class="mt-2 grid grid-cols-1">
+          <%= f.select :gender, 
+              options_for_select([["Male", "male"], ["Female", "female"], ["Other", "other"]], resource.gender || "male"),
+              {},
+              class: "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+        </div>
       </div>
 
       <div>
-        <%= f.label :email, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <%= f.email_field :email, autocomplete: "email", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        <%= f.label :email, class: "block text-sm/6 font-medium text-gray-900" %>
+        <div class="mt-2">
+          <%= f.email_field :email, autocomplete: "email", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+        </div>
       </div>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -35,27 +55,37 @@
       <% end %>
 
       <div>
-        <%= f.label :password, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="text-sm text-gray-500">Leave blank if you don't want to change it</div>
-        <%= f.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-        <% if @minimum_password_length %>
-          <div class="text-sm text-gray-500"><%= @minimum_password_length %> characters minimum</div>
-        <% end %>
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="text-sm text-gray-500">Leave blank if you don't want to change it</div>
+        </div>
+        <div class="mt-2">
+          <%= f.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <% if @minimum_password_length %>
+            <div class="mt-1 text-sm text-gray-500"><%= @minimum_password_length %> characters minimum</div>
+          <% end %>
+        </div>
       </div>
 
       <div>
-        <%= f.label :password_confirmation, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        <%= f.label :password_confirmation, class: "block text-sm/6 font-medium text-gray-900" %>
+        <div class="mt-2">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+        </div>
       </div>
 
       <div>
-        <%= f.label :current_password, class: "block text-sm font-medium leading-6 text-gray-900" %>
-        <div class="text-sm text-gray-500">We need your current password to confirm your changes</div>
-        <%= f.password_field :current_password, autocomplete: "current-password", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        <div class="flex items-center justify-between">
+          <%= f.label :current_password, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="text-sm text-gray-500">We need your current password to confirm your changes</div>
+        </div>
+        <div class="mt-2">
+          <%= f.password_field :current_password, autocomplete: "current-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+        </div>
       </div>
 
       <div>
-        <%= f.submit "Update", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        <%= f.submit "Update", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
       </div>
     <% end %>
 

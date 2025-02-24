@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :roles, through: :user_roles
   belongs_to :current_role, class_name: "Role", optional: true
 
+  after_initialize :set_default_gender, if: :new_record?
+
   def current_subscription
     subscription_histories.find_by("start_date <= ? AND end_date >= ?", Time.current, Time.current)
   end
@@ -20,4 +22,10 @@ class User < ApplicationRecord
   validates :gender, presence: true, inclusion: { in: %w[male female other] }
   validates :lang, presence: true, inclusion: { in: %w[en de] }
   validates :active, inclusion: { in: [ true, false ] }
+
+  private
+
+  def set_default_gender
+    self.gender ||= "male"
+  end
 end
