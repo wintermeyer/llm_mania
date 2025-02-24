@@ -81,8 +81,8 @@ class UserTest < ActiveSupport::TestCase
   test "should return current subscription" do
     user = create(:user)
     subscription = create(:subscription)
-    create(:subscription_history, 
-      user: user, 
+    create(:subscription_history,
+      user: user,
       subscription: subscription,
       start_date: 1.day.ago,
       end_date: 1.day.from_now

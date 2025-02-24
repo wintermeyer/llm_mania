@@ -22,4 +22,4 @@ FactoryBot.define do
     factory :user_role, traits: [ :user ]
     factory :inactive_role, traits: [ :inactive ]
   end
-end 
+end
