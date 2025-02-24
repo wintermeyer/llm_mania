@@ -1,0 +1,17 @@
+en:
+  shared:
+    navigation_content:
+      app_name: "LLM Mania"
+      dashboard: "Dashboard"
+      team: "Team"
+      projects: "Projects"
+      calendar: "Calendar"
+      documents: "Documents"
+      reports: "Reports"
+      your_teams: "Your teams"
+      settings: "Settings"
+    profile_dropdown:
+      your_profile: "Your profile"
+      sign_out: "Sign out"
+    off_canvas_menu_for_mobile:
+      close_sidebar: "Close sidebar" 

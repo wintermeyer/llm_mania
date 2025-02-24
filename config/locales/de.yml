@@ -1,0 +1,27 @@
+de:
+  hello: "Hallo Welt"
+  
+  # Default Rails messages
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%d. %b"
+      long: "%d. %B %Y"
+  
+  time:
+    formats:
+      default: "%d.%m.%Y, %H:%M Uhr"
+      short: "%d. %b, %H:%M Uhr"
+      long: "%A, %d. %B %Y, %H:%M Uhr"
+  
+  # Common confirmation messages
+  helpers:
+    submit:
+      create: "%{model} erstellen"
+      update: "%{model} aktualisieren"
+      submit: "%{model} speichern"
+    
+  # Common confirmation dialogs
+  common:
+    are_you_sure: "Bist du sicher?"
+    confirm_delete: "Bist du sicher? Diese Aktion kann nicht rückgängig gemacht werden." 

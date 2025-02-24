@@ -12,6 +12,7 @@ class User < ApplicationRecord
   belongs_to :current_role, class_name: "Role", optional: true
 
   after_initialize :set_default_gender, if: :new_record?
+  after_initialize :set_default_language, if: :new_record?
 
   def current_subscription
     subscription_histories.find_by("start_date <= ? AND end_date >= ?", Time.current, Time.current)
@@ -23,9 +24,18 @@ class User < ApplicationRecord
   validates :lang, presence: true, inclusion: { in: %w[en de] }
   validates :active, inclusion: { in: [ true, false ] }
 
+  # Update user's language preference when they change the locale
+  def update_language_preference(locale)
+    update(lang: locale.to_s) if locale.to_s.in?(%w[en de])
+  end
+
   private
 
   def set_default_gender
     self.gender ||= "male"
+  end
+
+  def set_default_language
+    self.lang ||= I18n.locale.to_s
   end
 end

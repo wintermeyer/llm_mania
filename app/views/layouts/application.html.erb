@@ -33,7 +33,7 @@
       <div class="lg:pl-72">
         <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
           <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="mobileMenuOpen = true">
-            <span class="sr-only">Open sidebar</span>
+            <span class="sr-only"><%= t('layouts.application.open_sidebar') %></span>
             <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
@@ -44,11 +44,16 @@
 
           <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <div class="ml-auto flex items-center gap-x-4 lg:gap-x-6">
+              <div class="flex items-center gap-x-2" aria-label="<%= t('layouts.application.language_switcher') %>">
+                <%= link_to t('layouts.application.english'), { locale: :en }, class: "text-sm font-semibold leading-6 #{I18n.locale == :en ? 'text-indigo-600' : 'text-gray-900 hover:text-indigo-500'}" %>
+                <span class="text-gray-300">|</span>
+                <%= link_to t('layouts.application.german'), { locale: :de }, class: "text-sm font-semibold leading-6 #{I18n.locale == :de ? 'text-indigo-600' : 'text-gray-900 hover:text-indigo-500'}" %>
+              </div>
               <% if user_signed_in? %>
                 <%= render 'shared/profile_dropdown' %>
               <% else %>
-                <%= link_to "Sign in", new_user_session_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
-                <%= link_to "Sign up", new_user_registration_path, class: "ml-4 text-sm font-semibold leading-6 text-indigo-600" %>
+                <%= link_to t('layouts.application.sign_in'), new_user_session_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+                <%= link_to t('layouts.application.sign_up'), new_user_registration_path, class: "ml-4 text-sm font-semibold leading-6 text-indigo-600" %>
               <% end %>
             </div>
           </div>

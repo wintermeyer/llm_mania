@@ -1,0 +1,12 @@
+de:
+  layouts:
+    application:
+      title: "LLM Mania"
+      sign_in: "Anmelden"
+      sign_up: "Registrieren"
+      open_sidebar: "Seitenleiste öffnen"
+      close_sidebar: "Seitenleiste schließen"
+      open_user_menu: "Benutzermenü öffnen"
+      language_switcher: "Sprachumschalter"
+      english: "Englisch"
+      german: "Deutsch" 

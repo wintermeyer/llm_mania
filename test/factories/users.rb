@@ -6,7 +6,7 @@ FactoryBot.define do
     password { "password123" }
     password_confirmation { "password123" }
     gender { %w[male female other].sample }
-    lang { %w[en de].sample }
+    lang { "en" }  # Default to English
     active { true }
     association :current_role, factory: :role
 
@@ -28,8 +28,20 @@ FactoryBot.define do
       end
     end
 
+    trait :german do
+      lang { "de" }
+      after(:build) do |user|
+        # Use German Faker data for consistency
+        Faker::Config.locale = "de"
+        user.first_name = Faker::Name.first_name
+        user.last_name = Faker::Name.last_name
+        Faker::Config.locale = "en"  # Reset to English
+      end
+    end
+
     factory :admin_user, traits: [ :admin ]
     factory :inactive_user, traits: [ :inactive ]
     factory :user_with_prompts, traits: [ :with_prompts ]
+    factory :german_user, traits: [ :german ]
   end
 end

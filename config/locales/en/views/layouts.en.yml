@@ -1,0 +1,12 @@
+en:
+  layouts:
+    application:
+      title: "LLM Mania"
+      sign_in: "Sign in"
+      sign_up: "Sign up"
+      open_sidebar: "Open sidebar"
+      close_sidebar: "Close sidebar"
+      open_user_menu: "Open user menu"
+      language_switcher: "Language switcher"
+      english: "English"
+      german: "German" 

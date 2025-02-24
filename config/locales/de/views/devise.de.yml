@@ -1,0 +1,47 @@
+de:
+  devise:
+    sessions:
+      new:
+        title: "Bei deinem Konto anmelden"
+        sign_in: "Anmelden"
+        forgot_password: "Passwort vergessen?"
+        not_registered: "Noch nicht registriert?"
+        create_account: "Konto erstellen"
+    registrations:
+      new:
+        title: "Konto erstellen"
+        sign_up: "Registrieren"
+        already_registered: "Bereits ein Konto?"
+        sign_in: "Anmelden"
+        gender_options:
+          male: "Männlich"
+          female: "Weiblich"
+          other: "Divers"
+        min_password_length: "Mindestens %{length} Zeichen"
+      edit:
+        title: "Profil bearbeiten"
+        update: "Aktualisieren"
+        cancel_account: "Mein Konto löschen"
+        unhappy: "Unzufrieden?"
+        confirm_cancel: "Bist du sicher? Dies kann nicht rückgängig gemacht werden."
+        back: "Zurück"
+    passwords:
+      new:
+        title: "Passwort vergessen?"
+        send_instructions: "Anweisungen zum Zurücksetzen senden"
+        back_to_sign_in: "Zurück zur Anmeldung"
+    shared:
+      links:
+        sign_in: "Anmelden"
+        sign_up: "Registrieren"
+        forgot_password: "Passwort vergessen?"
+        no_confirmation_instructions: "Keine Bestätigungsanweisungen erhalten?"
+        no_unlock_instructions: "Keine Entsperranweisungen erhalten?"
+        sign_in_with: "Mit %{provider} anmelden"
+    labels:
+      first_name: "Vorname"
+      last_name: "Nachname"
+      gender: "Geschlecht"
+      email: "E-Mail"
+      password: "Passwort"
+      remember_me: "Angemeldet bleiben" 

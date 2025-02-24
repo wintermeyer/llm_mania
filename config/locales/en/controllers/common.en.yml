@@ -1,0 +1,10 @@
+en:
+  controllers:
+    common:
+      notice: "Notice"
+      alert: "Alert"
+      success: "Operation completed successfully."
+      error: "An error occurred."
+      created: "Item was successfully created."
+      updated: "Item was successfully updated."
+      deleted: "Item was successfully deleted." 

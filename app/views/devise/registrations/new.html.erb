@@ -9,7 +9,7 @@
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Create your account</h2>
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900"><%= t('.title') %></h2>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -17,24 +17,28 @@
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
-        <%= f.label :first_name, class: "block text-sm/6 font-medium text-gray-900" %>
+        <%= f.label :first_name, t('devise.labels.first_name'), class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
           <%= f.text_field :first_name, autofocus: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
       </div>
 
       <div>
-        <%= f.label :last_name, class: "block text-sm/6 font-medium text-gray-900" %>
+        <%= f.label :last_name, t('devise.labels.last_name'), class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
           <%= f.text_field :last_name, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
       </div>
 
       <div>
-        <%= f.label :gender, class: "block text-sm/6 font-medium text-gray-900" %>
+        <%= f.label :gender, t('devise.labels.gender'), class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2 grid grid-cols-1">
           <%= f.select :gender, 
-              options_for_select([["Male", "male"], ["Female", "female"], ["Other", "other"]], "male"),
+              options_for_select([
+                [t('.gender_options.male'), "male"], 
+                [t('.gender_options.female'), "female"], 
+                [t('.gender_options.other'), "other"]
+              ], "male"),
               {},
               class: "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -44,7 +48,7 @@
       </div>
 
       <div>
-        <%= f.label :email, class: "block text-sm/6 font-medium text-gray-900" %>
+        <%= f.label :email, t('devise.labels.email'), class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
           <%= f.email_field :email, autocomplete: "email", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
@@ -52,10 +56,10 @@
 
       <div>
         <div class="flex items-center justify-between">
-          <%= f.label :password, class: "block text-sm/6 font-medium text-gray-900" %>
+          <%= f.label :password, t('devise.labels.password'), class: "block text-sm/6 font-medium text-gray-900" %>
           <% if @minimum_password_length %>
             <div class="text-sm text-gray-500">
-              <%= @minimum_password_length %> characters minimum
+              <%= t('.min_password_length', length: @minimum_password_length) %>
             </div>
           <% end %>
         </div>
@@ -65,13 +69,13 @@
       </div>
 
       <div>
-        <%= f.submit "Sign up", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        <%= f.submit t('.sign_up'), class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
       </div>
     <% end %>
 
     <p class="mt-10 text-center text-sm/6 text-gray-500">
-      Already have an account?
-      <%= link_to "Sign in", new_session_path(resource_name), class: "font-semibold text-indigo-600 hover:text-indigo-500" %>
+      <%= t('.already_registered') %>
+      <%= link_to t('.sign_in'), new_session_path(resource_name), class: "font-semibold text-indigo-600 hover:text-indigo-500" %>
     </p>
   </div>
 </div>
