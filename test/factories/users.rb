@@ -5,12 +5,16 @@ FactoryBot.define do
     email { Faker::Internet.unique.email }
     password_digest { Faker::Crypto.md5 }
     gender { %w[male female other].sample }
-    role { "user" }
     lang { %w[en de].sample }
     active { true }
+    association :current_role, factory: :role
 
     trait :admin do
-      role { "admin" }
+      after(:create) do |user|
+        admin_role = create(:role, name: "admin")
+        user.update!(current_role: admin_role)
+        create(:user_role_association, user: user, role: admin_role)
+      end
     end
 
     trait :inactive do

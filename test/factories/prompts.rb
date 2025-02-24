@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :prompt do
-    user
-    content { Faker::Lorem.paragraph(sentence_count: 3) }
+    association :user
+    content { Faker::Lorem.paragraph }
     private { false }
+    status { "waiting" }
     hidden { false }
     flagged { false }
 
@@ -16,6 +17,22 @@ FactoryBot.define do
 
     trait :flagged do
       flagged { true }
+    end
+
+    trait :in_queue do
+      status { "in_queue" }
+    end
+
+    trait :processing do
+      status { "processing" }
+    end
+
+    trait :completed do
+      status { "completed" }
+    end
+
+    trait :failed do
+      status { "failed" }
     end
 
     trait :with_jobs do
