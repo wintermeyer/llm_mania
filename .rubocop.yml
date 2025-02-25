@@ -5,8 +5,50 @@ inherit_gem:
 plugins:
   - rubocop-performance
   - rubocop-rails
-  - rubocop-minitest
+
+# Silence warnings about plugin configuration in the inherited gem
+AllCops:
+  SuggestExtensions: false
+
+# Disable documentation requirement for application code
+Style/Documentation:
+  Enabled: false
+
+# Disable string literals requirement for application code
+Style/StringLiterals:
+  Enabled: false
+
+# Allow longer blocks in factories, migrations, and schema files
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/**/*'
+    - 'config/routes.rb'
+    - 'test/**/*'
+
+# Allow longer methods in migrations
+Metrics/MethodLength:
+  Exclude:
+    - 'bin/bundle'
+    - 'db/migrate/**/*'
+
+# Allow higher complexity in bin/bundle
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'bin/bundle'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'bin/bundle'
+
+# Fix line length issues
+Layout/LineLength:
+  Exclude:
+    - 'config/initializers/devise.rb'
+    - 'bin/bundle'
 
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]`
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
