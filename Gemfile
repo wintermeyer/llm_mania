@@ -71,4 +71,7 @@ end
 
 gem "devise", "~> 4.9"
 
+# Internationalization support for Rails
+gem "rails-i18n", "~> 8.0.0"
+
 gem "letter_opener", "~> 1.10", group: :development

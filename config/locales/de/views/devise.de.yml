@@ -25,6 +25,10 @@ de:
         unhappy: "Unzufrieden?"
         confirm_cancel: "Bist du sicher? Dies kann nicht rückgängig gemacht werden."
         back: "Zurück"
+        password_leave_blank: "Leer lassen, wenn du es nicht ändern möchtest"
+        current_password_needed: "Wir benötigen dein aktuelles Passwort, um deine Änderungen zu bestätigen"
+        waiting_confirmation: "Warte auf Bestätigung für: %{email}"
+        min_password_length: "Mindestens %{length} Zeichen"
     passwords:
       new:
         title: "Passwort vergessen?"

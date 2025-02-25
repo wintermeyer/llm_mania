@@ -9,7 +9,7 @@
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Edit Profile</h2>
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900"><%= t('devise.registrations.edit.title') %></h2>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -51,18 +51,18 @@
       </div>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div class="text-sm text-gray-600">Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <div class="text-sm text-gray-600"><%= t('devise.registrations.edit.waiting_confirmation', email: resource.unconfirmed_email) %></div>
       <% end %>
 
       <div>
         <div class="flex items-center justify-between">
           <%= f.label :password, class: "block text-sm/6 font-medium text-gray-900" %>
-          <div class="text-sm text-gray-500">Leave blank if you don't want to change it</div>
+          <div class="text-sm text-gray-500"><%= t('devise.registrations.edit.password_leave_blank') %></div>
         </div>
         <div class="mt-2">
           <%= f.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           <% if @minimum_password_length %>
-            <div class="mt-1 text-sm text-gray-500"><%= @minimum_password_length %> characters minimum</div>
+            <div class="mt-1 text-sm text-gray-500"><%= t('devise.registrations.edit.min_password_length', length: @minimum_password_length) %></div>
           <% end %>
         </div>
       </div>
@@ -77,7 +77,7 @@
       <div>
         <div class="flex items-center justify-between">
           <%= f.label :current_password, class: "block text-sm/6 font-medium text-gray-900" %>
-          <div class="text-sm text-gray-500">We need your current password to confirm your changes</div>
+          <div class="text-sm text-gray-500"><%= t('devise.registrations.edit.current_password_needed') %></div>
         </div>
         <div class="mt-2">
           <%= f.password_field :current_password, autocomplete: "current-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
@@ -85,7 +85,7 @@
       </div>
 
       <div>
-        <%= f.submit "Update", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        <%= f.submit t('devise.registrations.edit.update'), class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
       </div>
     <% end %>
 
@@ -104,7 +104,7 @@
       </div>
 
       <div class="border-t border-gray-200 pt-6">
-        <%= link_to "Back", :back, class: "text-sm font-semibold leading-6 text-gray-900" %>
+        <%= link_to t('devise.registrations.edit.back'), :back, class: "text-sm font-semibold leading-6 text-gray-900" %>
       </div>
     </div>
   </div>
