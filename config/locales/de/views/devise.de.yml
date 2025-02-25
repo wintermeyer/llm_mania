@@ -49,6 +49,7 @@ de:
       email: "E-Mail"
       password: "Passwort"
       remember_me: "Angemeldet bleiben"
+      lang: "Sprache"
     confirmations:
       new:
         title: "Bestätigungsanweisungen erneut senden"
@@ -80,4 +81,7 @@ de:
       password_change:
         subject: "Passwort geändert"
         greeting: "Hallo %{recipient}!"
-        message: "Wir kontaktieren dich, um dich darüber zu informieren, dass dein Passwort geändert wurde." 
+        message: "Wir kontaktieren dich, um dich darüber zu informieren, dass dein Passwort geändert wurde."
+    language_options:
+      en: "Englisch"
+      de: "Deutsch" 

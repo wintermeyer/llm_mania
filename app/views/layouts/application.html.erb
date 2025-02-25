@@ -44,11 +44,6 @@
 
           <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <div class="ml-auto flex items-center gap-x-4 lg:gap-x-6">
-              <div class="flex items-center gap-x-2" aria-label="<%= t('layouts.application.language_switcher') %>">
-                <%= link_to t('layouts.application.english'), { locale: :en }, class: "text-sm font-semibold leading-6 #{I18n.locale == :en ? 'text-indigo-600' : 'text-gray-900 hover:text-indigo-500'}" %>
-                <span class="text-gray-300">|</span>
-                <%= link_to t('layouts.application.german'), { locale: :de }, class: "text-sm font-semibold leading-6 #{I18n.locale == :de ? 'text-indigo-600' : 'text-gray-900 hover:text-indigo-500'}" %>
-              </div>
               <% if user_signed_in? %>
                 <%= render 'shared/profile_dropdown' %>
               <% else %>

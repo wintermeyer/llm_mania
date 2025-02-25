@@ -17,23 +17,11 @@ class ApplicationController < ActionController::Base
     return if Rails.env.test?
 
     # Priority:
-    # 1. User preference from params (if present)
-    # 2. User preference from session (if present)
-    # 3. User preference from user model (if logged in)
-    # 4. Browser language preference (if available and supported)
-    # 5. Default locale (English)
+    # 1. User preference from user model (if logged in)
+    # 2. Browser language preference (if available and supported)
+    # 3. Default locale (English)
 
-    locale = if params[:locale].present?
-      # Store the locale in session if it comes from params
-      session[:locale] = params[:locale]
-
-      # Update user's language preference if they're logged in
-      current_user.update_language_preference(params[:locale]) if user_signed_in?
-
-      params[:locale]
-    elsif session[:locale].present?
-      session[:locale]
-    elsif user_signed_in? && current_user.lang.present?
+    locale = if user_signed_in? && current_user.lang.present?
       current_user.lang
     else
       extract_locale_from_browser
@@ -55,8 +43,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Include locale in all generated URLs
+  # No longer include locale in generated URLs
   def default_url_options
-    { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
+    {}
   end
 end

@@ -33,4 +33,10 @@ end
 
 class ActionDispatch::SystemTestCase
   include Devise::Test::IntegrationHelpers
+
+  # Set up Devise mappings for system tests
+  setup do
+    @request ||= ActionDispatch::TestRequest.create
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
 end

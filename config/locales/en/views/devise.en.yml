@@ -49,6 +49,10 @@ en:
       email: "Email"
       password: "Password"
       remember_me: "Remember me"
+      lang: "Language"
+    language_options:
+      en: "English"
+      de: "German"
     confirmations:
       new:
         title: "Resend confirmation instructions"

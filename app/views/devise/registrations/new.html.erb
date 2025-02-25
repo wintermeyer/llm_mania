@@ -47,6 +47,8 @@
         </div>
       </div>
 
+      <%= f.hidden_field :lang, value: I18n.locale.to_s %>
+
       <div>
         <%= f.label :email, t('devise.labels.email'), class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">

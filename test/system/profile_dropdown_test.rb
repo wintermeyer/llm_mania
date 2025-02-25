@@ -4,6 +4,10 @@ class ProfileDropdownTest < ApplicationSystemTestCase
   setup do
     # Create a simple user with confirmed email
     @user = create(:user, confirmed_at: Time.current)
+
+    # Set up Devise mapping explicitly for this test
+    Devise.mappings[:user] = Devise.mappings[:user] || Devise::Mapping.new(:user, {})
+
     sign_in @user
   end
 

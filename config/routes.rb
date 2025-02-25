@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-  # Scope routes with locale
-  scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    devise_for :users, controllers: {
-      registrations: "users/registrations"
-    }
+  # No longer scoping routes with locale
+  devise_for :users, controllers: {
+    registrations: "users/registrations"
+  }
 
-    # Defines the root path route ("/")
-    root "pages#home"
-  end
+  # Defines the root path route ("/")
+  root "pages#home"
 
   # Routes outside of locale scope
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
