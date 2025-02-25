@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :rating do
+    llm_job { create(:completed_job) }
     user
-    response
     score { Faker::Number.between(from: 1, to: 5) }
-    comment { Faker::Lorem.sentence }
+    comment { Faker::Lorem.paragraph }
 
     trait :low_rating do
       score { Faker::Number.between(from: 1, to: 2) }

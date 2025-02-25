@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_24_195040) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_25_113609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_24_195040) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "response_time_ms"
+    t.text "response"
     t.index ["llm_id"], name: "index_llm_jobs_on_llm_id"
     t.index ["position"], name: "index_llm_jobs_on_position"
     t.index ["prompt_id"], name: "index_llm_jobs_on_prompt_id"
@@ -64,22 +65,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_24_195040) do
   end
 
   create_table "ratings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "response_id", null: false
     t.uuid "user_id", null: false
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "comment"
-    t.index ["response_id"], name: "index_ratings_on_response_id"
-    t.index ["user_id"], name: "index_ratings_on_user_id"
-  end
-
-  create_table "responses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "llm_job_id", null: false
-    t.text "response"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["llm_job_id"], name: "index_responses_on_llm_job_id"
+    t.index ["llm_job_id"], name: "index_ratings_on_llm_job_id"
+    t.index ["user_id", "llm_job_id"], name: "index_ratings_on_user_id_and_llm_job_id", unique: true
+    t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
   create_table "roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -166,9 +160,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_24_195040) do
   add_foreign_key "prompt_reports", "prompts"
   add_foreign_key "prompt_reports", "users"
   add_foreign_key "prompts", "users"
-  add_foreign_key "ratings", "responses"
+  add_foreign_key "ratings", "llm_jobs"
   add_foreign_key "ratings", "users"
-  add_foreign_key "responses", "llm_jobs"
   add_foreign_key "subscription_histories", "subscriptions"
   add_foreign_key "subscription_histories", "users"
   add_foreign_key "subscription_llms", "llms"

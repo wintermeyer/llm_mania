@@ -43,10 +43,14 @@ class LlmJobTest < ActiveSupport::TestCase
   end
 
   test "should allow valid status values" do
-    %w[queued processing completed failed].each do |status|
+    %w[queued processing failed].each do |status|
       llm_job = build(:llm_job, status: status)
       assert llm_job.valid?, "#{status} should be a valid status"
     end
+
+    # Special case for completed status which requires a response
+    llm_job = build(:llm_job, status: "completed", response: "This is a test response")
+    assert llm_job.valid?, "completed should be a valid status"
   end
 
   test "should allow nil response_time_ms" do
@@ -70,14 +74,27 @@ class LlmJobTest < ActiveSupport::TestCase
     assert_not_nil llm_job.llm
   end
 
-  test "should have many responses" do
-    llm_job = create(:completed_job)
-    assert_equal 1, llm_job.responses.count
+  test "should require response when status is completed" do
+    llm_job = build(:llm_job, status: "completed", response: nil)
+    assert_not llm_job.valid?
+    assert_includes llm_job.errors[:response], "can't be blank"
   end
 
-  test "should destroy associated responses when destroyed" do
-    llm_job = create(:completed_job)
-    assert_difference "Response.count", -1 do
+  test "should not require response when status is not completed" do
+    %w[queued processing failed].each do |status|
+      llm_job = build(:llm_job, status: status, response: nil)
+      assert llm_job.valid?, "response should not be required for status #{status}"
+    end
+  end
+
+  test "should have many ratings" do
+    llm_job = create(:completed_job_with_ratings)
+    assert_equal 2, llm_job.ratings.count
+  end
+
+  test "should destroy associated ratings when destroyed" do
+    llm_job = create(:completed_job_with_ratings)
+    assert_difference "Rating.count", -2 do
       llm_job.destroy
     end
   end

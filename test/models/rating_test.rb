@@ -12,7 +12,7 @@ class RatingTest < ActiveSupport::TestCase
     assert_includes rating.errors[:score], "can't be blank"
   end
 
-  test "should require valid score range" do
+  test "should require valid score" do
     rating = build(:rating, score: 0)
     assert_not rating.valid?
     assert_includes rating.errors[:score], "must be greater than or equal to 1"
@@ -34,9 +34,9 @@ class RatingTest < ActiveSupport::TestCase
     assert_includes rating.errors[:comment], "can't be blank"
   end
 
-  test "should belong to response" do
+  test "should belong to llm_job" do
     rating = create(:rating)
-    assert_not_nil rating.response
+    assert_not_nil rating.llm_job
   end
 
   test "should belong to user" do
@@ -44,10 +44,10 @@ class RatingTest < ActiveSupport::TestCase
     assert_not_nil rating.user
   end
 
-  test "should enforce unique user per response" do
+  test "should enforce uniqueness of user and llm_job" do
     rating = create(:rating)
-    duplicate_rating = build(:rating, user: rating.user, response: rating.response)
-    assert_not duplicate_rating.valid?
-    assert_includes duplicate_rating.errors[:response_id], "has already been taken"
+    duplicate = build(:rating, user: rating.user, llm_job: rating.llm_job)
+    assert_not duplicate.valid?
+    assert_includes duplicate.errors[:llm_job_id], "has already been taken"
   end
 end
