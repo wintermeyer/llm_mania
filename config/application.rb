@@ -28,5 +28,12 @@ module LlmMania
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Configure generators to skip generating JSON versions
+    config.generators do |g|
+      g.scaffold_controller :responders_controller
+      g.jbuilder false
+      g.test_framework :test_unit, fixture: false
+    end
   end
 end
