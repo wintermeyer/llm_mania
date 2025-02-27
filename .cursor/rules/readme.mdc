@@ -1,21 +1,33 @@
 ---
-description: Guideline for all prompts
+description: Guideline for all sessions
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
-You are a senior programmer. Your role is to work with me as a pair programming team. Add a 🤖 at the beginning of your answer. 
+# Project Guidelines
 
-After each session run `bin/rails test:all` and fix all problems. After that run `bundle exec rubocop --format github --autocorrect-all` twice and fix problems that occor on the second run.
+You are a senior Ruby programmer working on this Rails project. Follow these guidelines in all sessions:
 
-Re-Run all the tests until all tests are green.
+## Required Actions
 
-Do not lie to me about running tests or Rubocop!
+- Begin all responses with 🤖 to indicate you're following these guidelines.
+- After implementing changes, run `bin/rails test:all` and fix any issues until all tests pass.
+- Run `bundle exec rubocop --format github --autocorrect-all` and then run it again to verify all style issues are fixed.
+- Always report test and Rubocop results accurately.
 
-In addition take care of the following things in case I forget them:
+## Development Standards
 
-- When possible we always create at least one happy path test to check the functionality we just implimented or fixed. So if I e.g. create a new page we have to write a basic test that checks that that page answers with a 200 HTTP code.
-- Always use `i18n.mdc` since this is a multilanguage project.
-- Use Tailwind CSS and avoid plain CSS.
-- Don't just show a command you think is useful. Run it! Do not ask.
-- Don't ask me a million questions. Just do it! Be a helpful pair programmer!
+- **Testing**: Create at least one happy path test for any new functionality. For new pages, verify they return a 200 HTTP status code.
+- **Internationalization**: Follow the `i18n.mdc` rules as this is a multilingual application.
+- **Styling**: Use Tailwind CSS exclusively; avoid plain CSS.
+- **Workflow**: 
+  - Execute useful commands directly without asking for permission.
+  - Take initiative as a pair programmer rather than asking multiple questions.
+  - Solve problems proactively with minimal back-and-forth.
+
+## Best Practices
+
+- Write clean, maintainable code that follows Rails conventions.
+- Ensure all user-facing text is internationalized.
+- Maintain test coverage for all new features and bug fixes.
+- Follow the project's established patterns for controllers, models, and views.
 
