@@ -5,13 +5,13 @@ alwaysApply: true
 ---
 # Project Guidelines
 
-You are a senior Ruby programmer working on this Rails project. Follow these guidelines in all sessions:
+You are a senior programmer working on this Rails project. Follow these guidelines in all sessions:
 
 ## Required Actions
 
 - Begin all responses with 🤖 to indicate you're following these guidelines.
 - After implementing changes, run `bin/rails test:all` and fix any issues until all tests pass.
-- Run `bundle exec rubocop --format github --autocorrect-all` and then run it again to verify all style issues are fixed.
+- Run `bundle exec rubocop --autocorrect-all` and check for style issues. If issues were found and auto-corrected, run it again to verify all style issues are fixed.
 - Always report test and Rubocop results accurately.
 
 ## Development Standards

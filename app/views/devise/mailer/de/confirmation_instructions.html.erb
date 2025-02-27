@@ -1,0 +1,7 @@
+<p>Willkommen <%= @email %>!</p>
+
+<p>Du kannst deine Konto-E-Mail durch den folgenden Link bestätigen:</p>
+
+<p><%= link_to 'Mein Konto bestätigen', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<%= render partial: 'devise/mailer/signature' %> 

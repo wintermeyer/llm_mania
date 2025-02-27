@@ -1,0 +1,9 @@
+<p>Hallo <%= @email %>!</p>
+
+<% if @resource.try(:unconfirmed_email?) %>
+  <p>Wir kontaktieren dich, um dich darüber zu informieren, dass deine E-Mail-Adresse in <%= @resource.unconfirmed_email %> geändert wird.</p>
+<% else %>
+  <p>Wir kontaktieren dich, um dich darüber zu informieren, dass deine E-Mail-Adresse in <%= @resource.email %> geändert wurde.</p>
+<% end %>
+
+<%= render partial: 'devise/mailer/signature' %> 

@@ -1,0 +1,9 @@
+<p>Hallo <%= @resource.email %>!</p>
+
+<p>Dein Konto wurde aufgrund einer übermäßigen Anzahl erfolgloser Anmeldeversuche gesperrt.</p>
+
+<p>Klicke auf den folgenden Link, um dein Konto zu entsperren:</p>
+
+<p><%= link_to 'Mein Konto entsperren', unlock_url(@resource, unlock_token: @token) %></p>
+
+<%= render partial: 'devise/mailer/signature' %> 
