@@ -8,7 +8,6 @@ FactoryBot.define do
     gender { %w[male female other].sample }
     lang { "en" }  # Default to English
     active { true }
-    association :current_role, factory: :role
 
     # Confirmable
     confirmed_at { Time.current }

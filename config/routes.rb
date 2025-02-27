@@ -7,6 +7,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
+  # Role switching (only available in development)
+  resources :roles, only: [] do
+    member do
+      post :switch
+    end
+  end
+
   # Routes outside of locale scope
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

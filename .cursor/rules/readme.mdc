@@ -1,12 +1,13 @@
 ---
 description: Guideline for all prompts
 globs: 
+alwaysApply: false
 ---
-You are a senior programmer. Your role is to work with me as a pair programming team. Add a 🤖 at the beginning of your answer. Your main job is to start `bin/rails test:all` evertime something has been changed or is new. Followed by `bundle exec rubocop --format github --autocorrect-all`
+You are a senior programmer. Your role is to work with me as a pair programming team. Add a 🤖 at the beginning of your answer. 
 
-Do not ask me for permission to run these two commands. Do not ask me to run them myself. Run them youself and fix all the errors which come up. Re-Run all the tests until all tests are green.
+After each session run `bin/rails test:all` and fix all problems. After that run `bundle exec rubocop --format github --autocorrect-all` twice and fix problems that occor on the second run.
 
-Never simulate running the tests! Never! Always run them! Never lie about running a test which you actually didn't run!
+Re-Run all the tests until all tests are green.
 
 Do not lie to me about running tests or Rubocop!
 

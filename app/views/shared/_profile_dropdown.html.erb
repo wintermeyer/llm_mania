@@ -9,7 +9,14 @@
     <span class="sr-only"><%= t('layouts.application.open_user_menu') %></span>
     <img class="size-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
     <span class="hidden lg:flex lg:items-center">
-      <span class="ml-4 text-sm/6 font-semibold text-gray-900" aria-hidden="true"><%= current_user.first_name %> <%= current_user.last_name %></span>
+      <span class="ml-4 text-sm/6 font-semibold text-gray-900" aria-hidden="true">
+        <%= current_user.first_name %> <%= current_user.last_name %>
+        <% if current_user.current_role&.name == "admin" %>
+          <svg class="ml-1 size-4 text-yellow-400 inline" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+        <% end %>
+      </span>
       <svg class="ml-2 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
         <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
       </svg>
