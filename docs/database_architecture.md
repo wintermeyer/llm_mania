@@ -85,6 +85,7 @@ erDiagram
         STRING name
         STRING ollama_model
         INTEGER size
+        STRING creator
         BOOLEAN active
         TIMESTAMP created_at
         TIMESTAMP updated_at
@@ -196,6 +197,7 @@ Handles user reports for inappropriate prompts.
 Defines available LLM and their configurations.
 - `ollama_model`: Name of the model in Ollama (e.g., "llama2", "mistral", etc.)
 - `size`: Size of the model in billions of parameters
+- `creator`: String - Organization that created the LLM (e.g., "Meta" for Llama models)
 
 ### LLM Job
 Manages the processing of prompts by LLMs.
