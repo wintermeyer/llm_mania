@@ -30,6 +30,12 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 
+# Use GoodJob as the ActiveJob backend
+gem "good_job"
+
+# Use Ollama for local LLM integration
+gem "ollama-ai"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 

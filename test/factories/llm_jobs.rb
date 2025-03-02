@@ -1,12 +1,15 @@
 FactoryBot.define do
   factory :llm_job do
-    prompt
-    llm
-    priority { Faker::Number.between(from: 0, to: 10) }
-    sequence(:position)
+    association :prompt
+    association :llm
+    priority { 2 }
+    position { 0 }
     status { "queued" }
-    response_time_ms { nil }
     response { nil }
+    response_time_ms { nil }
+    started_at { nil }
+    completed_at { nil }
+    error_message { nil }
 
     trait :with_response do
       status { "completed" }
@@ -30,7 +33,7 @@ FactoryBot.define do
     end
 
     trait :high_priority do
-      priority { 10 }
+      priority { 3 }
       position { 1 }
     end
 
