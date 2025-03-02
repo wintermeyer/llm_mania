@@ -35,6 +35,8 @@ gem "good_job"
 
 # Use Ollama for local LLM integration
 gem "ollama-ai"
+# Specify a specific version of Ethon to avoid segmentation faults
+gem "ethon", "~> 0.15.0", git: "https://github.com/typhoeus/ethon.git", branch: "master"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -73,6 +75,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Use mocha for mocking in tests
+  gem "mocha"
 end
 
 gem "devise", "~> 4.9"

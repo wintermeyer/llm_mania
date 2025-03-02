@@ -1,8 +1,8 @@
 class ProcessLlmJob < ApplicationJob
   queue_as :llm_jobs
 
-  # Retry with exponential backoff
-  retry_on StandardError, wait: :exponentially_longer, attempts: 3
+  # Retry with fixed wait times
+  retry_on StandardError, wait: 5.seconds, attempts: 3
 
   # Discard if the job no longer exists
   discard_on ActiveRecord::RecordNotFound

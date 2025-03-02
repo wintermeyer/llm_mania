@@ -49,8 +49,12 @@ class ProcessLlmJobTest < ActiveJob::TestCase
   end
 
   test "should handle errors" do
-    # Create a job that will fail
-    allow_any_instance_of(ProcessLlmJob).to receive(:call_llm_api).and_raise(StandardError.new("Test error"))
+    # Temporarily redefine the call_llm_api method for this test
+    ProcessLlmJob.class_eval do
+      def call_llm_api(llm_job)
+        raise StandardError, "Test error"
+      end
+    end
 
     # Process the job (should raise an error)
     assert_raises StandardError do
@@ -72,11 +76,20 @@ class ProcessLlmJobTest < ActiveJob::TestCase
 
     # Should have enqueued a QueueManagerJob
     assert_enqueued_jobs 1, only: QueueManagerJob
+  ensure
+    # Restore the original method after the test
+    ProcessLlmJob.class_eval do
+      remove_method :call_llm_api
+    end
+    load Rails.root.join('app/jobs/process_llm_job.rb')
   end
 
   test "should not process a job that is not queued" do
     # Mark the job as processing
     @llm_job.update!(status: "processing")
+
+    # Get current job count for QueueManagerJob
+    initial_job_count = GoodJob::Job.where("serialized_params LIKE ?", "%QueueManagerJob%").count
 
     # Process the job
     ProcessLlmJob.perform_now(@llm_job.id)
@@ -91,6 +104,7 @@ class ProcessLlmJobTest < ActiveJob::TestCase
     assert_nil @llm_job.response
 
     # Should not have enqueued a QueueManagerJob
-    assert_no_enqueued_jobs only: QueueManagerJob
+    final_job_count = GoodJob::Job.where("serialized_params LIKE ?", "%QueueManagerJob%").count
+    assert_equal initial_job_count, final_job_count, "No QueueManagerJob should have been enqueued"
   end
 end

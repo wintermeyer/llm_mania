@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/typhoeus/ethon.git
+  revision: 6b0260dd6f9bf3b6491d9c2ccab104b8b71db108
+  branch: master
+  specs:
+    ethon (0.15.0)
+      ffi (>= 1.15.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -116,8 +124,6 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
-    ethon (0.16.0)
-      ffi (>= 1.15.0)
     factory_bot (6.5.1)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.4.4)
@@ -200,6 +206,8 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.25.4)
+    mocha (2.7.1)
+      ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
     net-http (0.6.0)
       uri
@@ -338,6 +346,7 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.4.1)
     securerandom (0.4.1)
     selenium-webdriver (4.29.1)
@@ -432,6 +441,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.9)
+  ethon (~> 0.15.0)!
   factory_bot_rails
   faker
   good_job
@@ -439,6 +449,7 @@ DEPENDENCIES
   jbuilder
   kamal
   letter_opener (~> 1.10)
+  mocha
   ollama-ai
   pg
   propshaft
