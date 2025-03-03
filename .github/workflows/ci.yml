@@ -84,16 +84,26 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Setup database
+        env:
+          RAILS_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          DATABASE_NAME: llm_mania_test
+          # REDIS_URL: redis://localhost:6379/0
+        run: |
+          bin/rails ci:prepare
+
       - name: Run tests
         env:
           RAILS_ENV: test
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          DATABASE_NAME: llm_mania_test
           # REDIS_URL: redis://localhost:6379/0
         run: |
-          bin/rails db:create
-          bin/rails db:schema:load
           bin/rails test test:system
 
       - name: Keep screenshots from failed system tests

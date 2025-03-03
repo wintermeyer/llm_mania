@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "==> Setting up test environment..."
+export RAILS_ENV=test
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=postgres
+export POSTGRES_HOST=localhost
+export DATABASE_NAME=llm_mania_test
+
+echo "==> Preparing database..."
+bin/rails ci:prepare
+
+echo "==> Running tests..."
+bin/rails test test:system
+
+echo "==> CI tests completed successfully!" 

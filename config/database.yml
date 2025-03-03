@@ -8,9 +8,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: postgres
-  password: postgres
-  host: localhost
+  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "postgres" } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
 
 development:
   <<: *default
@@ -21,7 +21,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: llm_mania_test
+  database: <%= ENV.fetch("DATABASE_NAME") { "llm_mania_test" } %>
 
 # Store production database in a secure location with proper credentials
 production:

@@ -15,6 +15,7 @@ class User < ApplicationRecord
   after_initialize :set_default_language, if: :new_record?
   after_create :assign_default_role
   after_create :assign_roles_to_first_user, if: -> { Rails.env.development? }
+  after_create :assign_cheapest_subscription
 
   def current_subscription
     subscription_histories.find_by("start_date <= ? AND end_date >= ?", Time.current, Time.current)
@@ -39,6 +40,27 @@ class User < ApplicationRecord
 
   def set_default_language
     self.lang ||= I18n.locale.to_s
+  end
+
+  # Assign the cheapest subscription to the user
+  def assign_cheapest_subscription
+    # Skip if the user already has a subscription history
+    return if subscription_histories.exists?
+
+    # Find the cheapest active subscription
+    cheapest_subscription = Subscription.where(active: true)
+                                       .order(:price_cents, :created_at)
+                                       .first
+
+    # If no subscription is available, do nothing
+    return if cheapest_subscription.nil?
+
+    # Create a subscription history for one year from now
+    subscription_histories.create!(
+      subscription: cheapest_subscription,
+      start_date: Time.current,
+      end_date: 1.year.from_now
+    )
   end
 
   # Assign the default user role to every new user
