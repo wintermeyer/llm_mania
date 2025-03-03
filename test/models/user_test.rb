@@ -131,17 +131,17 @@ class UserTest < ActiveSupport::TestCase
     mid_subscription = create(:subscription, price_cents: 500, active: true)
     cheap_subscription = create(:subscription, price_cents: 0, active: true)
     inactive_subscription = create(:subscription, price_cents: 0, active: false)
-    
+
     # Create a new user
     user = create(:user)
-    
+
     # Check if the user has a subscription history
     assert_equal 1, user.subscription_histories.count
-    
+
     # Check if the assigned subscription is the cheapest one
     user_subscription = user.subscription_histories.first.subscription
     assert_equal cheap_subscription, user_subscription
-    
+
     # Check if the subscription dates are correct
     subscription_history = user.subscription_histories.first
     assert subscription_history.start_date <= Time.current
@@ -154,14 +154,14 @@ class UserTest < ActiveSupport::TestCase
     newer_subscription = create(:subscription, price_cents: 0, active: true)
     sleep(1)
     newest_subscription = create(:subscription, price_cents: 0, active: true)
-    
+
     # Create an older subscription by manipulating the created_at
     oldest_subscription = create(:subscription, price_cents: 0, active: true)
     oldest_subscription.update_column(:created_at, 1.day.ago)
-    
+
     # Create a new user
     user = create(:user)
-    
+
     # Check if the assigned subscription is the oldest one
     user_subscription = user.subscription_histories.first.subscription
     assert_equal oldest_subscription, user_subscription
@@ -170,10 +170,10 @@ class UserTest < ActiveSupport::TestCase
   test "new user should have nil subscription when no subscriptions exist" do
     # Ensure no subscriptions exist
     Subscription.destroy_all
-    
+
     # Create a new user
     user = create(:user)
-    
+
     # Check if the user has no subscription history
     assert_equal 0, user.subscription_histories.count
   end
@@ -182,22 +182,22 @@ class UserTest < ActiveSupport::TestCase
     # Create subscriptions
     expensive_subscription = create(:subscription, price_cents: 1000, active: true)
     cheap_subscription = create(:subscription, price_cents: 0, active: true)
-    
+
     # Create a user and manually assign a subscription (before the callback runs)
     user = build(:user)
-    
+
     # Create a subscription history manually
-    subscription_history = build(:subscription_history, 
+    subscription_history = build(:subscription_history,
       user: user,
       subscription: expensive_subscription,
       start_date: Time.current,
       end_date: 6.months.from_now
     )
-    
+
     # Save the user with the subscription history
     user.subscription_histories << subscription_history
     user.save!
-    
+
     # Check if the user still has the manually assigned subscription
     assert_equal 1, user.subscription_histories.count
     assert_equal expensive_subscription, user.subscription_histories.first.subscription

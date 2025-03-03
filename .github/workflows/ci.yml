@@ -111,15 +111,11 @@ jobs:
           PGPASSWORD=postgres psql -h localhost -U postgres -c "DROP DATABASE IF EXISTS llm_mania_test;"
           PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE llm_mania_test;"
           
-          echo "Attempting to prepare database via Rails task..."
-          # This will use the database we created above, or create it again if needed
-          bin/rails ci:prepare || {
-            echo "Rails task failed, proceeding with manual steps..."
-            echo "Loading schema..."
-            bin/rails db:schema:load
-            echo "Loading seeds..."
-            bin/rails db:seed
-          }
+          echo "Running migrations instead of loading schema..."
+          bin/rails db:migrate
+          
+          echo "Loading seeds..."
+          bin/rails db:seed
           
           echo "Database setup completed."
 

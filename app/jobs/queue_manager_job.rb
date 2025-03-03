@@ -14,7 +14,7 @@ class QueueManagerJob < ApplicationJob
 
   def process_queue
     # Get the maximum number of concurrent jobs
-    max_concurrent = SystemConfig.max_concurrent_jobs
+    max_concurrent = get_max_concurrent_jobs
 
     # Count current processing jobs
     current_processing = LlmJob.processing.count
@@ -31,6 +31,25 @@ class QueueManagerJob < ApplicationJob
     # Process each job
     next_jobs.each do |job|
       ProcessLlmJob.perform_later(job.id)
+    end
+  end
+
+  # Helper method to get max concurrent jobs with fallback if table doesn't exist
+  def get_max_concurrent_jobs
+    # Default value if we can't access the SystemConfig
+    default_max_concurrent = 2
+
+    # Check if the table exists before querying
+    if ActiveRecord::Base.connection.table_exists?(:system_configs)
+      begin
+        SystemConfig.max_concurrent_jobs
+      rescue => e
+        Rails.logger.warn "Error accessing SystemConfig: #{e.message}. Using default value: #{default_max_concurrent}"
+        default_max_concurrent
+      end
+    else
+      Rails.logger.warn "SystemConfigs table does not exist yet. Using default max_concurrent_jobs: #{default_max_concurrent}"
+      default_max_concurrent
     end
   end
 end

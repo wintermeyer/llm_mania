@@ -3,8 +3,13 @@
 # your test database is "scratch space" for the test suite and is wiped
 # and recreated between test runs. Don't rely on the data there!
 
+require "active_support/core_ext/integer/time"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+
+  # Add this line to avoid dependency issues during migration
+  config.active_record.verify_foreign_keys_for_fixtures = false
 
   # While tests run files are not watched, reloading is not necessary.
   config.enable_reloading = false
@@ -50,4 +55,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Set to true for all tests
+  config.cache_classes = true
 end

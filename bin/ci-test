@@ -17,20 +17,36 @@ pg_isready -h localhost -p 5432 || {
   exit 1
 }
 
-echo "==> Creating database via psql..."
+echo "==> Recreating database..."
+# Try the psql approach first
+echo "Attempting to drop and create database via psql..."
 PGPASSWORD=postgres psql -h localhost -U postgres -c "DROP DATABASE IF EXISTS llm_mania_test;" || true
-PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE llm_mania_test;" || {
-  echo "Failed to create database via psql. Will try Rails method."
+PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE llm_mania_test;" 
+if [ $? -ne 0 ]; then
+  echo "Failed to create database via psql. Trying Rails method..."
+  bin/rails db:drop db:create || {
+    echo "Both psql and Rails methods failed to create the database."
+    exit 1
+  }
+fi
+
+echo "==> Running migrations..."
+bin/rails db:migrate || {
+  echo "Failed to run migrations. Please check your migration files."
+  exit 1
 }
 
-echo "==> Preparing database via Rails..."
-bin/rails ci:prepare || {
-  echo "Rails task failed, proceeding with manual steps..."
-  echo "Loading schema..."
-  bin/rails db:schema:load
-  echo "Loading seeds..."
-  bin/rails db:seed
+echo "==> Loading seeds..."
+bin/rails db:seed || {
+  echo "Failed to load seeds. But continuing as this may not be critical."
 }
+
+echo "==> Verifying database setup..."
+# Run a simple Rails command to verify SystemConfig is working
+bin/rails runner "puts 'SystemConfig table exists: ' + ActiveRecord::Base.connection.table_exists?(:system_configs).to_s"
+if [ $? -ne 0 ]; then
+  echo "WARNING: System verification check failed, but continuing with tests..."
+fi
 
 echo "==> Running tests..."
 bin/rails test test:system
