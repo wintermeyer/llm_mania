@@ -7,10 +7,30 @@ export RAILS_ENV=test
 export POSTGRES_USER=postgres
 export POSTGRES_PASSWORD=postgres
 export POSTGRES_HOST=localhost
+export POSTGRES_PORT=5432
+export POSTGRES_SSL_MODE=prefer
 export DATABASE_NAME=llm_mania_test
 
-echo "==> Preparing database..."
-bin/rails ci:prepare
+echo "==> Checking PostgreSQL connection..."
+pg_isready -h localhost -p 5432 || {
+  echo "PostgreSQL is not running! Please start your PostgreSQL server."
+  exit 1
+}
+
+echo "==> Creating database via psql..."
+PGPASSWORD=postgres psql -h localhost -U postgres -c "DROP DATABASE IF EXISTS llm_mania_test;" || true
+PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE llm_mania_test;" || {
+  echo "Failed to create database via psql. Will try Rails method."
+}
+
+echo "==> Preparing database via Rails..."
+bin/rails ci:prepare || {
+  echo "Rails task failed, proceeding with manual steps..."
+  echo "Loading schema..."
+  bin/rails db:schema:load
+  echo "Loading seeds..."
+  bin/rails db:seed
+}
 
 echo "==> Running tests..."
 bin/rails test test:system

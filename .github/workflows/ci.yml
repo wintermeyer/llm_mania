@@ -84,16 +84,44 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Check PostgreSQL
+        run: |
+          echo "PostgreSQL version:"
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "SELECT version();"
+          echo "PostgreSQL running status:"
+          pg_isready -h localhost -p 5432
+          echo "Listing current databases:"
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "\l"
+
       - name: Setup database
         env:
           RAILS_ENV: test
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_SSL_MODE: prefer
           DATABASE_NAME: llm_mania_test
           # REDIS_URL: redis://localhost:6379/0
         run: |
-          bin/rails ci:prepare
+          echo "Checking PostgreSQL connection..."
+          pg_isready -h localhost -p 5432 -U postgres
+          
+          echo "Attempting to create database via psql..."
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "DROP DATABASE IF EXISTS llm_mania_test;"
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE llm_mania_test;"
+          
+          echo "Attempting to prepare database via Rails task..."
+          # This will use the database we created above, or create it again if needed
+          bin/rails ci:prepare || {
+            echo "Rails task failed, proceeding with manual steps..."
+            echo "Loading schema..."
+            bin/rails db:schema:load
+            echo "Loading seeds..."
+            bin/rails db:seed
+          }
+          
+          echo "Database setup completed."
 
       - name: Run tests
         env:
@@ -101,6 +129,8 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_SSL_MODE: prefer
           DATABASE_NAME: llm_mania_test
           # REDIS_URL: redis://localhost:6379/0
         run: |
