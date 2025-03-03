@@ -11,6 +11,15 @@ class ProcessLlmJobTest < ActiveJob::TestCase
 
     # Clear any existing jobs in GoodJob
     GoodJob::Job.delete_all
+
+    # Mock the call_llm_api method for all tests
+    ProcessLlmJob.any_instance.stubs(:call_llm_api).returns("Test LLM response")
+
+    # Mock QueueManagerJob to not actually perform
+    @queue_manager_called = false
+    QueueManagerJob.stubs(:perform_later).with do
+      @queue_manager_called = true
+    end
   end
 
   test "should process a job" do
@@ -33,8 +42,8 @@ class ProcessLlmJobTest < ActiveJob::TestCase
     assert_not_nil @llm_job.started_at
     assert_not_nil @llm_job.completed_at
 
-    # Should have enqueued a QueueManagerJob
-    assert_enqueued_jobs 1, only: QueueManagerJob
+    # Verify QueueManagerJob was called
+    assert @queue_manager_called, "QueueManagerJob.perform_later should have been called"
   end
 
   test "should update prompt status" do
@@ -49,17 +58,14 @@ class ProcessLlmJobTest < ActiveJob::TestCase
   end
 
   test "should handle errors" do
-    # Temporarily redefine the call_llm_api method for this test
-    ProcessLlmJob.class_eval do
-      def call_llm_api(llm_job)
-        raise StandardError, "Test error"
-      end
-    end
+    # For this test, make the call_llm_api method raise an error
+    ProcessLlmJob.any_instance.stubs(:call_llm_api).raises(StandardError.new("Test error"))
 
-    # Process the job (should raise an error)
-    assert_raises StandardError do
-      ProcessLlmJob.perform_now(@llm_job.id)
-    end
+    # Reset the flag
+    @queue_manager_called = false
+
+    # Process the job (should rescue and not raise the error in perform)
+    ProcessLlmJob.perform_now(@llm_job.id)
 
     # Reload the job
     @llm_job.reload
@@ -74,22 +80,16 @@ class ProcessLlmJobTest < ActiveJob::TestCase
     assert_not_nil @llm_job.started_at
     assert_not_nil @llm_job.completed_at
 
-    # Should have enqueued a QueueManagerJob
-    assert_enqueued_jobs 1, only: QueueManagerJob
-  ensure
-    # Restore the original method after the test
-    ProcessLlmJob.class_eval do
-      remove_method :call_llm_api
-    end
-    load Rails.root.join('app/jobs/process_llm_job.rb')
+    # Verify QueueManagerJob was called
+    assert @queue_manager_called, "QueueManagerJob.perform_later should have been called"
   end
 
   test "should not process a job that is not queued" do
     # Mark the job as processing
     @llm_job.update!(status: "processing")
 
-    # Get current job count for QueueManagerJob
-    initial_job_count = GoodJob::Job.where("serialized_params LIKE ?", "%QueueManagerJob%").count
+    # Reset the flag
+    @queue_manager_called = false
 
     # Process the job
     ProcessLlmJob.perform_now(@llm_job.id)
@@ -103,8 +103,7 @@ class ProcessLlmJobTest < ActiveJob::TestCase
     # Should not have a response
     assert_nil @llm_job.response
 
-    # Should not have enqueued a QueueManagerJob
-    final_job_count = GoodJob::Job.where("serialized_params LIKE ?", "%QueueManagerJob%").count
-    assert_equal initial_job_count, final_job_count, "No QueueManagerJob should have been enqueued"
+    # QueueManagerJob should not have been called
+    assert_not @queue_manager_called, "QueueManagerJob.perform_later should not have been called"
   end
 end
