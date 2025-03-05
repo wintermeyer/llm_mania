@@ -203,4 +203,62 @@ class UserTest < ActiveSupport::TestCase
     assert_equal expensive_subscription, user.subscription_histories.first.subscription
     assert_equal 6.months.from_now.to_date, user.subscription_histories.first.end_date.to_date
   end
+
+  test "should be able to create a user with a specific current_role_id" do
+    # Create a custom role
+    custom_role = create(:role, name: "custom_role")
+
+    # Create a user with the custom role as current_role
+    user = create(:user, current_role: custom_role)
+
+    # Verify the current_role is set correctly
+    assert_equal custom_role.id, user.current_role_id
+    assert_equal "custom_role", user.current_role.name
+
+    # Verify the user still has the "user" role assigned
+    assert user.has_role?("user"), "User should always have the 'user' role"
+  end
+
+  test "should always assign user role even when creating with a different current_role" do
+    # Create an admin role
+    admin_role = create(:role, name: "admin")
+
+    # Create a user with admin as current_role
+    user = create(:user, current_role: admin_role)
+
+    # Verify the user has both roles
+    assert user.has_role?("user"), "User should have the 'user' role"
+    assert_equal "admin", user.current_role.name
+  end
+
+  test "should default to user role when current_role is not specified" do
+    # Create a user without specifying current_role
+    user = create(:user, current_role: nil)
+
+    # Verify the current_role is set to user
+    assert_not_nil user.current_role
+    assert_equal "user", user.current_role.name
+  end
+
+  test "ensure_current_role should set user role as current_role when current_role is nil" do
+    # Create a user with roles but nil current_role
+    user = create(:user)
+    admin_role = create(:role, name: "admin")
+
+    # Add admin role to the user
+    user.roles << admin_role
+
+    # Set current_role to nil and save
+    user.update_column(:current_role_id, nil)
+
+    # Reload the user to trigger ensure_current_role
+    user.reload
+
+    # Save the user to trigger the callback
+    user.save!
+
+    # Verify current_role is set to user role
+    assert_not_nil user.current_role
+    assert_equal "user", user.current_role.name
+  end
 end

@@ -81,6 +81,9 @@ end
 
 gem "devise", "~> 4.9"
 
+# Authorization for Rails
+gem "cancancan", "~> 3.5"
+
 # Internationalization support for Rails
 gem "rails-i18n", "~> 8.0.0"
 

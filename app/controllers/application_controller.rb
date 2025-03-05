@@ -2,14 +2,32 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  # CanCanCan authorization
+  check_authorization unless: :skip_authorization?
+
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  # Handle CanCanCan authorization exceptions
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html do
+        redirect_to root_path, alert: exception.message
+      end
+      format.json { render json: { error: exception.message }, status: :forbidden }
+    end
+  end
 
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :first_name, :last_name, :gender, :lang ])
     devise_parameter_sanitizer.permit(:account_update, keys: [ :first_name, :last_name, :gender, :lang ])
+  end
+
+  # Controllers that don't require authorization
+  def skip_authorization?
+    devise_controller? || is_a?(PagesController)
   end
 
   def set_locale

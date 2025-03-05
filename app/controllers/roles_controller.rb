@@ -2,6 +2,7 @@ class RolesController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_development_environment
   before_action :ensure_user_has_role, only: [:switch]
+  load_and_authorize_resource only: [:switch]
 
   # POST /roles/:id/switch
   def switch

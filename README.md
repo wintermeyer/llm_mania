@@ -50,6 +50,64 @@ The queuing system uses ActiveJob with the GoodJob adapter, which stores jobs in
 - **PeriodicQueueCheckJob**: Job class that periodically checks the queue for new jobs.
 - **SystemConfig**: Model for storing system-wide configuration, including the maximum number of concurrent jobs.
 
+## Authorization with CanCanCan
+
+The application uses CanCanCan for authorization, which controls what resources users can access based on their roles.
+
+### Role System
+
+- **User Role**: Regular users can manage their own prompts, ratings, and reports.
+- **Admin Role**: Administrators have full access to all resources.
+
+### Authorization Implementation
+
+1. Ability Class: Defines all permissions in the `app/models/ability.rb` file.
+2. Controllers: Use `load_and_authorize_resource` to automatically authorize actions.
+3. Views: Use helpers like `can?` to conditionally display UI elements based on permissions.
+
+### Usage Examples
+
+#### In Controllers
+
+```ruby
+class PromptsController < ApplicationController
+  load_and_authorize_resource
+  
+  def index
+    # @prompts is automatically loaded and filtered by CanCanCan
+  end
+  
+  def show
+    # @prompt is automatically loaded and authorized by CanCanCan
+  end
+  
+  # Other actions...
+end
+```
+
+#### In Views
+
+```erb
+<% if can? :create, Prompt %>
+  <%= link_to "New Prompt", new_prompt_path %>
+<% end %>
+
+<% if can? :manage, @prompt %>
+  <%= link_to "Edit", edit_prompt_path(@prompt) %>
+  <%= button_to "Delete", prompt_path(@prompt), method: :delete %>
+<% end %>
+```
+
+#### Checking Roles in Code
+
+```ruby
+# Check if user has a specific role
+current_user.has_role?("admin")
+
+# Check if user is an admin (shorthand method)
+current_user.admin?
+```
+
 ## Testing on the Command Line
 
 You can test the LLM comparison tool on the command line using the Rails console:

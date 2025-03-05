@@ -16,6 +16,7 @@ class User < ApplicationRecord
   after_create :assign_default_role
   after_create :assign_roles_to_first_user, if: -> { Rails.env.development? }
   after_create :assign_cheapest_subscription
+  before_validation :ensure_current_role
 
   def current_subscription
     subscription_histories.find_by("start_date <= ? AND end_date >= ?", Time.current, Time.current)
@@ -27,12 +28,39 @@ class User < ApplicationRecord
   validates :lang, presence: true, inclusion: { in: %w[en de] }
   validates :active, inclusion: { in: [ true, false ] }
 
+  # Check if the user has a specific role
+  def has_role?(role_name)
+    roles.exists?(name: role_name)
+  end
+
+  # Check if the user is an admin
+  def admin?
+    has_role?("admin")
+  end
+
   # Update user's language preference when they change the locale
   def update_language_preference(locale)
     update(lang: locale.to_s) if locale.to_s.in?(%w[en de])
   end
 
   private
+
+  # Ensure the user always has a current role set
+  # Always prioritize the "user" role when in doubt
+  def ensure_current_role
+    # Skip if current_role is already set or if this is a new record
+    # New records will be handled by assign_default_role after create
+    return if current_role.present? || new_record?
+
+    # Always prioritize the "user" role
+    if has_role?("user")
+      user_role = roles.find_by(name: "user")
+      self.current_role = user_role if user_role.present?
+    elsif roles.any?
+      # If no user role, just take the first one
+      self.current_role = roles.first
+    end
+  end
 
   def set_default_gender
     self.gender ||= "male"
@@ -64,6 +92,9 @@ class User < ApplicationRecord
   end
 
   # Assign the default user role to every new user
+  # This method ensures that:
+  # 1. Every user has the "user" role
+  # 2. current_role is set to "user" if not explicitly provided
   def assign_default_role
     # Find or create the user role
     user_role = Role.find_or_create_by!(name: "user") do |role|
@@ -71,10 +102,10 @@ class User < ApplicationRecord
       role.active = true
     end
 
-    # Assign the user role
+    # Always assign the user role if not already assigned
     self.roles << user_role unless self.roles.include?(user_role)
 
-    # Set as current role if no current role is set
+    # Set current_role to user_role if not explicitly set during creation
     self.update(current_role: user_role) if self.current_role.nil?
   end
 
