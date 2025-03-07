@@ -34,3 +34,12 @@ en:
   common:
     are_you_sure: "Are you sure?"
     confirm_delete: "Are you sure? This action cannot be undone."
+    cancel: "Cancel"
+
+  activerecord:
+    errors:
+      models:
+        prompt:
+          attributes:
+            content:
+              too_long: "is too long (maximum is %{count} characters)"

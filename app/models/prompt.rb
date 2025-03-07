@@ -8,14 +8,15 @@ class Prompt < ApplicationRecord
   validates :hidden, inclusion: { in: [ true, false ] }
   validates :flagged, inclusion: { in: [ true, false ] }
   validates :private, inclusion: { in: [ true, false ] }
+  validate :content_within_subscription_limit, if: -> { content.present? }
 
   scope :private_prompts, -> { where(private: true) }
   scope :public_prompts, -> { where(private: false) }
 
-  after_create :create_llm_jobs
-
   # Create LLM jobs for this prompt based on the user's subscription
+  # This is now handled by the controller when specific LLMs are selected
   def create_llm_jobs
+    # Method kept for backward compatibility but no longer automatically called
     subscription = user.current_subscription&.subscription
     return unless subscription
 
@@ -58,6 +59,15 @@ class Prompt < ApplicationRecord
       update!(status: "processing")
     else
       update!(status: "in_queue")
+    end
+  end
+
+  private
+
+  def content_within_subscription_limit
+    max_length = user.current_subscription&.subscription&.max_prompt_length || 2000
+    if content.length > max_length
+      errors.add(:content, :too_long, count: max_length)
     end
   end
 end

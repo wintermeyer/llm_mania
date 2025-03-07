@@ -1,0 +1,31 @@
+<div class="p-2 hover:bg-gray-50 rounded transition-colors relative">
+  <label class="flex items-start cursor-pointer">
+    <div class="flex-shrink-0 mt-0.5">
+      <% if available %>
+        <input type="checkbox" id="llm_<%= llm.id %>" name="llm_ids[]" value="<%= llm.id %>" 
+              class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" checked>
+      <% else %>
+        <input type="checkbox" disabled 
+              class="h-4 w-4 text-gray-300 border-gray-300 rounded bg-gray-100 cursor-not-allowed">
+      <% end %>
+    </div>
+    <div class="ml-3 flex-grow <%= 'opacity-70' unless available %>">
+      <div class="font-medium <%= available ? 'text-gray-900' : 'text-gray-500' %>"><%= llm.name %></div>
+      
+      <div class="flex items-center mt-1.5 text-sm text-gray-500">
+        <%= llm.creator %> - <%= llm.size %> B
+      
+        <% if !available && @llm_subscriptions && @llm_subscriptions[llm.id].present? %>
+            - <%= t('prompts.new.available_in') %>: 
+            <% if @llm_subscriptions[llm.id].size == 1 %>
+              <%= @llm_subscriptions[llm.id].first %>
+            <% else %>
+              <%= @llm_subscriptions[llm.id][0..-2].join(', ') %> <%= t('common.and') %> <%= @llm_subscriptions[llm.id].last %>
+            <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  </label>
+
+</div> 

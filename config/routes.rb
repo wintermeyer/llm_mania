@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
+  # Prompts
+  resources :prompts, only: [:new, :create]
+
   # Role switching (only available in development)
   resources :roles, only: [] do
     member do

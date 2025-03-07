@@ -19,6 +19,7 @@ de:
       switch_to_user: "Zu Benutzer-Rolle wechseln"
       become_admin: "Admin werden"
       become_user: "Benutzer werden"
+      new_prompt: "Neuer Prompt"
     profile_dropdown:
       your_profile: "Dein Profil"
       sign_out: "Abmelden"

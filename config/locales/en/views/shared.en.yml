@@ -19,6 +19,7 @@ en:
       switch_to_user: "Switch to User Role"
       become_admin: "Become Admin"
       become_user: "Become User"
+      new_prompt: "New Prompt"
     profile_dropdown:
       your_profile: "Your profile"
       sign_out: "Sign out"

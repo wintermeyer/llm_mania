@@ -24,4 +24,13 @@ de:
   # Common confirmation dialogs
   common:
     are_you_sure: "Bist du sicher?"
-    confirm_delete: "Bist du sicher? Diese Aktion kann nicht rückgängig gemacht werden." 
+    confirm_delete: "Bist du sicher? Diese Aktion kann nicht rückgängig gemacht werden."
+    cancel: "Abbrechen"
+
+  activerecord:
+    errors:
+      models:
+        prompt:
+          attributes:
+            content:
+              too_long: "ist zu lang (maximal %{count} Zeichen)" 
