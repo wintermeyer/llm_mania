@@ -37,12 +37,12 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
       puts "Test: should create prompt with selected LLMs"
       puts "Prompt attributes: #{prompt_attributes.inspect}"
       puts "LLM IDs: #{[@llm1.id.to_s, @llm2.id.to_s].inspect}"
-      
+
       post prompts_path, params: {
         prompt: prompt_attributes,
         llm_ids: [@llm1.id.to_s, @llm2.id.to_s]
       }
-      
+
       # Print response information
       puts "Response status: #{response.status}"
       puts "Response body: #{response.body}" if response.status != 302
@@ -65,12 +65,12 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
       puts "Test: should create prompt with only one LLM selected"
       puts "Prompt attributes: #{prompt_attributes.inspect}"
       puts "LLM ID: #{@llm1.id}"
-      
+
       post prompts_path, params: {
         prompt: prompt_attributes,
         llm_ids: [@llm1.id.to_s]
       }
-      
+
       # Print response information
       puts "Response status: #{response.status}"
       puts "Response body: #{response.body}" if response.status != 302
@@ -92,11 +92,11 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
       # Print debug information
       puts "Test: should create prompt with no LLMs selected"
       puts "Prompt attributes: #{prompt_attributes.inspect}"
-      
+
       post prompts_path, params: {
         prompt: prompt_attributes
       }
-      
+
       # Print response information
       puts "Response status: #{response.status}"
       puts "Response body: #{response.body}" if response.status != 302
@@ -117,7 +117,7 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
     # Send skip_auto_content=true to prevent the controller from auto-fixing the content
     post prompts_path, params: { prompt: { content: "" }, skip_auto_content: "true" }
     assert_response :unprocessable_entity
-    
+
     # Verify that the content validation is working
     prompt = Prompt.new(content: "", user: @user)
     assert_not prompt.valid?
@@ -133,12 +133,12 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
       puts "Test: should create a non-private prompt"
       puts "Prompt attributes: #{prompt_attributes.inspect}"
       puts "LLM IDs: #{[@llm1.id.to_s].inspect}"
-      
+
       post prompts_path, params: {
         prompt: prompt_attributes,
         llm_ids: [@llm1.id.to_s]
       }
-      
+
       # Print response information
       puts "Response status: #{response.status}"
       puts "Response body: #{response.body}" if response.status != 302
@@ -151,7 +151,7 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal prompt_attributes[:content], prompt.content
     assert_equal false, prompt.private
-    
+
     # Check the status (depends on whether LLM jobs were created)
     if prompt.llm_jobs.any?
       assert_equal "in_queue", prompt.status
@@ -180,7 +180,7 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
   test "should not show prompt of another user if private" do
     other_user = create(:user)
     private_prompt = create(:prompt, user: other_user, private: true)
-    
+
     get prompt_path(private_prompt)
     assert_response :redirect
     assert_redirected_to root_path
@@ -189,7 +189,7 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
   test "should show public prompt of another user" do
     other_user = create(:user)
     public_prompt = create(:prompt, user: other_user, private: false)
-    
+
     get prompt_path(public_prompt)
     assert_response :success
     assert_select "h1", text: I18n.t('prompts.show.title')
@@ -199,22 +199,22 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
   test "should redirect to show page after creating a prompt" do
     # Create a prompt with explicit content
     prompt_attributes = { content: "Test redirect to show page", private: false }
-    
+
     # Post to create the prompt
     post prompts_path, params: {
       prompt: prompt_attributes,
       llm_ids: [@llm1.id.to_s]
     }
-    
+
     # Verify redirect
     assert_response :redirect
     prompt = Prompt.last
     assert_equal "Test redirect to show page", prompt.content
     assert_redirected_to prompt_path(prompt)
-    
+
     # Follow redirect
     follow_redirect!
-    
+
     # Verify we're on the show page
     assert_response :success
     assert_select "h1", text: I18n.t('prompts.show.title')
@@ -224,32 +224,32 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
     # Create a prompt with explicit content
     unique_content = "Test prompt content for controller test #{Time.current.to_i}"
     prompt_attributes = { content: unique_content, private: false }
-    
+
     # Post to create the prompt
     post prompts_path, params: {
       prompt: prompt_attributes,
       llm_ids: [@llm1.id.to_s]
     }
-    
+
     # Verify redirect
     assert_response :redirect
     prompt = Prompt.last
     assert_equal unique_content, prompt.content
     assert_redirected_to prompt_path(prompt)
-    
+
     # Follow redirect
     follow_redirect!
-    
+
     # Verify we're on the show page
     assert_response :success
     assert_select "h1", text: I18n.t('prompts.show.title')
-    
+
     # Verify the prompt content is displayed
     assert_select "div.prose", text: /#{unique_content}/
-    
+
     # Verify LLM information section is displayed
     assert_select "h2", text: "Language Model Responses"
-    
+
     # In the test environment, the assertions depend on whether LLM jobs were actually created or not
     # Check if LLM jobs exist and adjust expectations accordingly
     if prompt.llm_jobs.any?
@@ -270,28 +270,57 @@ class PromptsControllerTest < ActionDispatch::IntegrationTest
   test "should display LLM information on show page when LLM jobs exist" do
     # Create a prompt
     prompt = create(:prompt, user: @user, content: "Test prompt with LLM jobs", private: false)
-    
+
     # Create an LLM job for the prompt
     llm_job = create(:llm_job, prompt: prompt, llm: @llm1, status: "queued")
-    
+
     # Visit the show page
     get prompt_path(prompt)
-    
+
     # Verify we're on the show page
     assert_response :success
     assert_select "h1", text: I18n.t('prompts.show.title')
-    
+
     # Verify the prompt content is displayed
     assert_select "div.prose", text: /Test prompt with LLM jobs/
-    
+
     # Verify LLM information section is displayed
     assert_select "h2", text: "Language Model Responses"
-    
+
     # Verify the LLM information is displayed
     assert_select "h3", text: @llm1.name
     assert_select "p", text: /#{@llm1.size}.*#{@llm1.creator}/
-    
+
     # Verify the LLM job status is displayed
     assert_select "span.rounded-full", text: I18n.t('prompts.show.status.queued')
+  end
+
+  test "should return LLM jobs status when requested via AJAX" do
+    # Create a prompt
+    prompt = create(:prompt, user: @user, content: "Test prompt for AJAX updates", private: false)
+
+    # Create an LLM job for the prompt
+    llm_job = create(:llm_job, prompt: prompt, llm: @llm1, status: "queued")
+
+    # Make an AJAX request to the llm_jobs_status endpoint
+    get llm_jobs_status_prompt_path(prompt), xhr: true
+
+    # Verify the response
+    assert_response :success
+
+    # Check that the response contains the LLM job information
+    assert_match @llm1.name, response.body
+    assert_match I18n.t('prompts.show.status.queued'), response.body
+
+    # Update the LLM job status
+    llm_job.update!(status: "completed", response: "This is a test response")
+
+    # Make another AJAX request
+    get llm_jobs_status_prompt_path(prompt), xhr: true
+
+    # Verify the updated status is in the response
+    assert_response :success
+    assert_match I18n.t('prompts.show.status.completed'), response.body
+    assert_match "This is a test response", response.body
   end
 end

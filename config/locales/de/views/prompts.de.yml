@@ -46,6 +46,7 @@ de:
       model_info: "%{size}GB-Modell von %{creator}"
       waiting_in_queue: "Diese Anfrage wartet in der Warteschlange. Schau bald wieder vorbei für Ergebnisse."
       processing_message: "Diese Anfrage wird gerade verarbeitet. Schau bald wieder vorbei für Ergebnisse."
+      last_updated: "Zuletzt aktualisiert"
       status:
         queued: "In Warteschlange"
         processing: "Wird verarbeitet"

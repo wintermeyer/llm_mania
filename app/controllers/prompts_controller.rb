@@ -56,6 +56,18 @@ class PromptsController < ApplicationController
     authorize! :read, @prompt
   end
 
+  # Get the current status of all LLM jobs for a prompt
+  def llm_jobs_status
+    @prompt = Prompt.find(params[:id])
+    authorize! :read, @prompt
+
+    # Get all LLM jobs for this prompt with their related LLM
+    @llm_jobs = @prompt.llm_jobs.includes(:llm)
+
+    # Render a partial that contains only the LLM responses section
+    render partial: 'prompts/llm_jobs_status', locals: { prompt: @prompt, llm_jobs: @llm_jobs }
+  end
+
   private
 
   def prompt_params

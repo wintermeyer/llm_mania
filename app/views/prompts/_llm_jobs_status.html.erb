@@ -1,0 +1,65 @@
+<% if llm_jobs.empty? %>
+  <div class="bg-gray-50 p-4 rounded-md text-center text-gray-500">
+    <%= t('prompts.show.no_responses') %>
+  </div>
+<% else %>
+  <div class="space-y-6">
+    <% llm_jobs.each do |job| %>
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center">
+          <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              <%= job.llm.name %>
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              <%= t('prompts.show.model_info', size: job.llm.size, creator: job.llm.creator) %>
+            </p>
+          </div>
+          <div>
+            <% case job.status %>
+            <% when "queued" %>
+              <span data-status="queued" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                <%= t('prompts.show.status.queued') %>
+              </span>
+            <% when "processing" %>
+              <span data-status="processing" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <%= t('prompts.show.status.processing') %>
+              </span>
+            <% when "completed" %>
+              <span data-status="completed" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                <%= t('prompts.show.status.completed') %>
+                <% if job.response_time_ms %>
+                  <span class="ml-1">(<%= (job.response_time_ms / 1000.0).round(2) %>s)</span>
+                <% end %>
+              </span>
+            <% when "failed" %>
+              <span data-status="failed" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                <%= t('prompts.show.status.failed') %>
+              </span>
+            <% end %>
+          </div>
+        </div>
+        
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+          <% if job.status == "completed" && job.response.present? %>
+            <div class="prose max-w-none">
+              <%= simple_format h(job.response) %>
+            </div>
+          <% elsif job.status == "failed" && job.error_message.present? %>
+            <div class="text-red-600">
+              <%= job.error_message %>
+            </div>
+          <% elsif job.status == "queued" %>
+            <div class="text-gray-500 italic">
+              <%= t('prompts.show.waiting_in_queue') %>
+            </div>
+          <% elsif job.status == "processing" %>
+            <div class="text-gray-500 italic">
+              <%= t('prompts.show.processing_message') %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %> 

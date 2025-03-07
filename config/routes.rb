@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   root "pages#home"
 
   # Prompts
-  resources :prompts, only: [:index, :new, :create, :show]
+  resources :prompts, only: [:index, :new, :create, :show] do
+    member do
+      get :llm_jobs_status
+    end
+  end
 
   # Role switching (only available in development)
   resources :roles, only: [] do
