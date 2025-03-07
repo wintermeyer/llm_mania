@@ -1,5 +1,13 @@
 de:
   prompts:
+    index:
+      title: "Alle Prompts"
+      subtitle: "Durchsuche alle verfügbaren Prompts"
+      new_prompt: "Neuer Prompt"
+      by_user: "Von %{user}"
+      private_label: "Privat"
+      view_details: "Details anzeigen"
+      no_prompts: "Keine Prompts gefunden."
     new:
       title: "Neuen Prompt erstellen"
       content: "Prompt-Inhalt"
@@ -26,4 +34,22 @@ de:
       tap_to_select: "Karten zum Auswählen antippen"
       available_in: "Verfügbar in"
     create:
-      success: "Prompt wurde erfolgreich erstellt." 
+      success: "Prompt wurde erfolgreich erstellt."
+    show:
+      title: "Prompt-Details"
+      created_at: "Erstellt am %{time}"
+      private_label: "Privat"
+      back_to_dashboard: "Zurück zum Dashboard"
+      prompt_content: "Prompt-Inhalt"
+      responses: "Antworten der Sprachmodelle"
+      no_responses: "Für diesen Prompt wurden keine Sprachmodelle ausgewählt."
+      model_info: "%{size}GB-Modell von %{creator}"
+      waiting_in_queue: "Diese Anfrage wartet in der Warteschlange. Schau bald wieder vorbei für Ergebnisse."
+      processing_message: "Diese Anfrage wird gerade verarbeitet. Schau bald wieder vorbei für Ergebnisse."
+      status:
+        queued: "In Warteschlange"
+        processing: "Wird verarbeitet"
+        completed: "Abgeschlossen"
+        failed: "Fehlgeschlagen"
+        waiting: "Wartend"
+        in_queue: "In Warteschlange" 

@@ -1,0 +1,63 @@
+<div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+  <!-- Page Header -->
+  <header class="pt-6 pb-4 flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl"><%= t('.title') %></h1>
+      <p class="mt-2 text-sm text-gray-500">
+        <%= t('.subtitle') %>
+      </p>
+    </div>
+    <div>
+      <%= link_to t('.new_prompt'), new_prompt_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+  </header>
+
+  <!-- Prompts List -->
+  <div class="mt-6 space-y-6">
+    <% if @prompts.any? %>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <% @prompts.each do |prompt| %>
+          <div class="bg-white shadow overflow-hidden rounded-lg">
+            <div class="px-4 py-5 sm:px-6 bg-gray-50 flex justify-between items-center">
+              <div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 truncate">
+                  <%= truncate(prompt.content, length: 50) %>
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                  <%= t('.by_user', user: prompt.user.email) %>
+                </p>
+              </div>
+              <div>
+                <% if prompt.private? %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <%= t('.private_label') %>
+                  </span>
+                <% end %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= prompt_status_color(prompt.status) %>">
+                  <%= t("prompts.show.status.#{prompt.status}") %>
+                </span>
+              </div>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+              <div class="prose max-w-none line-clamp-3">
+                <%= simple_format h(truncate(prompt.content, length: 150)) %>
+              </div>
+              <div class="mt-4 flex justify-between items-center">
+                <div class="text-sm text-gray-500">
+                  <%= l(prompt.created_at, format: :short) %>
+                </div>
+                <div>
+                  <%= link_to t('.view_details'), prompt_path(prompt), class: "text-indigo-600 hover:text-indigo-900" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-gray-50 p-4 rounded-md text-center text-gray-500">
+        <%= t('.no_prompts') %>
+      </div>
+    <% end %>
+  </div>
+</div> 

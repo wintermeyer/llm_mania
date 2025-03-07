@@ -20,6 +20,7 @@ de:
       become_admin: "Admin werden"
       become_user: "Benutzer werden"
       new_prompt: "Neuer Prompt"
+      all_prompts: "Alle Prompts"
     profile_dropdown:
       your_profile: "Dein Profil"
       sign_out: "Abmelden"

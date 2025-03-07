@@ -1,5 +1,13 @@
 en:
   prompts:
+    index:
+      title: "All Prompts"
+      subtitle: "Browse all available prompts"
+      new_prompt: "New Prompt"
+      by_user: "By %{user}"
+      private_label: "Private"
+      view_details: "View Details"
+      no_prompts: "No prompts found."
     new:
       title: "Create a New Prompt"
       content: "Prompt Content"
@@ -26,4 +34,22 @@ en:
       tap_to_select: "Tap cards to select"
       available_in: "Available in"
     create:
-      success: "Prompt was successfully created." 
+      success: "Prompt was successfully created."
+    show:
+      title: "Prompt Details"
+      created_at: "Created on %{time}"
+      private_label: "Private"
+      back_to_dashboard: "Back to Dashboard"
+      prompt_content: "Prompt Content"
+      responses: "Language Model Responses"
+      no_responses: "No language models were selected for this prompt."
+      model_info: "%{size}GB model by %{creator}"
+      waiting_in_queue: "This request is waiting in the queue. Check back soon for results."
+      processing_message: "This request is currently being processed. Check back soon for results."
+      status:
+        queued: "In Queue"
+        processing: "Processing"
+        completed: "Completed"
+        failed: "Failed"
+        waiting: "Waiting"
+        in_queue: "In Queue" 

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   root "pages#home"
 
   # Prompts
-  resources :prompts, only: [:new, :create]
+  resources :prompts, only: [:index, :new, :create, :show]
 
   # Role switching (only available in development)
   resources :roles, only: [] do
