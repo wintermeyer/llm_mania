@@ -1,0 +1,39 @@
+de:
+  activerecord:
+    errors:
+      messages:
+        inclusion: "ist kein gültiger Wert"
+        exclusion: "ist reserviert"
+        invalid: "ist ungültig"
+        confirmation: "stimmt nicht mit der Bestätigung überein"
+        accepted: "muss akzeptiert werden"
+        empty: "darf nicht leer sein"
+        blank: "muss ausgefüllt werden"
+        present: "darf nicht ausgefüllt werden"
+        too_long:
+          one: "ist zu lang (maximal %{count} Zeichen)"
+          other: "ist zu lang (maximal %{count} Zeichen)"
+        too_short:
+          one: "ist zu kurz (mindestens %{count} Zeichen)"
+          other: "ist zu kurz (mindestens %{count} Zeichen)"
+        wrong_length:
+          one: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+          other: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+        not_a_number: "ist keine Zahl"
+        not_an_integer: "muss eine ganze Zahl sein"
+        greater_than: "muss größer als %{count} sein"
+        greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
+        equal_to: "muss genau %{count} sein"
+        less_than: "muss kleiner als %{count} sein"
+        less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
+        other_than: "darf nicht gleich %{count} sein"
+        odd: "muss ungerade sein"
+        even: "muss gerade sein"
+        taken: "ist bereits vergeben"
+      models:
+        prompt:
+          attributes:
+            content:
+              too_long: "ist zu lang (maximal %{count} Zeichen)"
+            private:
+              inclusion: "ist kein gültiger Wert" 

@@ -14,6 +14,20 @@ class PromptsController < ApplicationController
     @prompt.status = "waiting"
     @prompt.hidden = false
     @prompt.flagged = false
+    
+    # Debug-Ausgaben
+    Rails.logger.debug "Private vor Konvertierung: #{@prompt.private.inspect}, Klasse: #{@prompt.private.class}"
+    
+    # Stelle sicher, dass private immer einen gültigen Wert hat
+    # Konvertiere nil zu false und String-Werte zu Boolean
+    if @prompt.private.nil?
+      @prompt.private = false
+    elsif @prompt.private.is_a?(String)
+      @prompt.private = (@prompt.private == "1" || @prompt.private.downcase == "true")
+    end
+    
+    # Debug-Ausgaben
+    Rails.logger.debug "Private nach Konvertierung: #{@prompt.private.inspect}, Klasse: #{@prompt.private.class}"
 
     # For testing purposes, ensure content is present
     if @prompt.content.blank? && Rails.env.test?
@@ -27,6 +41,9 @@ class PromptsController < ApplicationController
       create_selected_llm_jobs if params[:llm_ids].present?
       redirect_to root_path, notice: t('.success')
     else
+      # Debug-Ausgaben
+      Rails.logger.debug "Validierungsfehler: #{@prompt.errors.full_messages.inspect}"
+      
       @max_prompt_length = current_user.current_subscription&.subscription&.max_prompt_length || 2000
       @private_prompts_allowed = current_user.current_subscription&.subscription&.private_prompts_allowed || false
       render :new, status: :unprocessable_entity

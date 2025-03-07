@@ -11,7 +11,7 @@ You are a senior programmer working on this Rails project. Follow these guidelin
 
 - Begin all responses with 🤖 to indicate you're following these guidelines.
 - After implementing changes, run `bin/rails test:all` and fix any issues until all tests pass.
-- Run `bundle exec rubocop --autocorrect-all --format github` and check for style issues. If issues were found and auto-corrected, run it again to verify all style issues are fixed.
+- Run `bundle exec rubocop --autocorrect-all --format github` to fix code style issues and run it again to check for additional style issues. If issues were found fix them.
 - Always report test and Rubocop results accurately.
 
 ## Development Standards
