@@ -1,0 +1,15 @@
+<div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+  <div class="flex justify-between items-center">
+    <h1 class="text-base font-semibold text-gray-900"><%= title %></h1>
+    <div>
+      <% if defined?(button_path) && defined?(button_text) %>
+        <%= link_to button_text, button_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      <% end %>
+    </div>
+  </div>
+  <% if defined?(subtitle) && subtitle.present? %>
+    <p class="mt-2 text-sm text-gray-500">
+      <%= subtitle %>
+    </p>
+  <% end %>
+</div> 

@@ -1,0 +1,97 @@
+<div class="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden rounded-lg border border-gray-100">
+  <!-- Card Header with status indicators -->
+  <div class="px-4 py-5 sm:px-6 bg-gradient-to-r from-gray-50 to-white flex justify-between items-center border-b border-gray-100">
+    <div class="flex-1">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 truncate max-w-[200px]">
+          <%= smart_prompt_preview(prompt, 50) %>
+        </h3>
+        <div class="flex-shrink-0 ml-2">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= prompt_status_color(prompt.status) %>">
+            <%= t("prompts.show.status.#{prompt.status}") %>
+          </span>
+        </div>
+      </div>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500 flex items-center space-x-2">
+        <span class="inline-flex items-center">
+          <svg class="h-4 w-4 text-gray-400 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <%= l(prompt.created_at, format: :short) %>
+        </span>
+        <% if prompt.private? %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <%= t('prompts.index.private_label') %>
+          </span>
+        <% end %>
+      </p>
+    </div>
+  </div>
+  
+  <!-- LLM Models & Responses Section -->
+  <div class="px-4 py-4 sm:px-6">
+    <% if prompt.llm_jobs.any? %>
+      <div class="space-y-3">
+        <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <%= t('prompts.index.responses_from') %>
+        </h4>
+        
+        <div class="space-y-3">
+          <% completed_jobs = prompt.llm_jobs.select { |job| job.status == "completed" } %>
+          <% if completed_jobs.any? %>
+            <div class="space-y-3">
+              <% 
+                # Show all completed jobs if fewer than 10, otherwise show top 2
+                display_jobs = completed_jobs.size < 10 ? completed_jobs : top_performing_llm_jobs(prompt, 2)
+              %>
+              <% display_jobs.each do |job| %>
+                <div class="bg-gray-50 rounded-md p-3">
+                  <div class="flex items-center text-sm mb-1">
+                    <span class="font-medium text-gray-900"><%= job.llm.name %></span>
+                    <span class="ml-2 text-xs text-gray-500">(<%= job.llm.creator %>)</span>
+                    <span class="ml-2 text-xs text-gray-500"><%= (job.response_time_ms / 1000.0).round(2) %>s</span>
+                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium <%= llm_size_badge_class(job.llm.size) %>">
+                      <%= job.llm.size %>GB
+                    </span>
+                  </div>
+                  <div class="text-sm text-gray-600 line-clamp-3 prose prose-sm">
+                    <% if job.response.present? %>
+                      <% clean_response = clean_llm_response(job.response) %>
+                      <%= simple_format h(truncate(clean_response, length: 150)) %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              
+              <% if completed_jobs.size > 10 %>
+                <p class="text-xs text-gray-500 mt-1">
+                  <%= t('prompts.index.and_more_responses', count: completed_jobs.size - display_jobs.size) %>
+                </p>
+              <% end %>
+            </div>
+          <% else %>
+            <!-- All LLM Names when no completed responses -->
+            <div class="flex flex-wrap gap-2">
+              <% prompt.llm_jobs.each do |job| %>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  <%= job.llm.name %>
+                  <span class="ml-1 text-gray-500"><%= job.llm.size %>GB</span>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <!-- Show a snippet of the prompt if no LLM responses -->
+      <div class="prose prose-sm max-w-none line-clamp-4 text-gray-600">
+        <%= simple_format h(truncate(prompt.content, length: 200)) %>
+      </div>
+    <% end %>
+    
+    <!-- Footer with link -->
+    <div class="mt-4 pt-3 border-t border-gray-100 flex justify-end">
+      <%= link_to t('prompts.index.view_details'), prompt_path(prompt), class: "text-sm font-medium text-indigo-600 hover:text-indigo-900" %>
+    </div>
+  </div>
+</div> 
