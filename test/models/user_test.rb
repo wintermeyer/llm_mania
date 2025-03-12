@@ -68,10 +68,10 @@ class UserTest < ActiveSupport::TestCase
     user = create(:user)
     role1 = create(:role, name: "role1")
     role2 = create(:role, name: "role2")
-    
+
     user.roles << role1
     user.roles << role2
-    
+
     assert_includes user.roles, role1
     assert_includes user.roles, role2
   end
@@ -79,10 +79,10 @@ class UserTest < ActiveSupport::TestCase
   test "should belong to current_role" do
     user = create(:user)
     role = create(:role, name: "test_role")
-    
+
     user.current_role = role
     user.save
-    
+
     assert_equal role, user.reload.current_role
   end
 
@@ -90,7 +90,7 @@ class UserTest < ActiveSupport::TestCase
     user = create(:user)
     subscription = create(:subscription)
     subscription_history = create(:subscription_history, user: user, subscription: subscription)
-    
+
     assert_equal subscription, user.current_subscription.subscription
   end
 

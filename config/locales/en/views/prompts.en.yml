@@ -7,7 +7,11 @@ en:
       by_user: "By %{user}"
       private_label: "Private"
       view_details: "View Details"
-      no_prompts: "No prompts found."
+      no_prompts: "No prompts have been created yet."
+      no_prompts_title: "No prompts found"
+      create_first_prompt: "Create your first prompt"
+      responses_from: "Responses"
+      and_more_responses: "And %{count} more responses"
     new:
       title: "Create a New Prompt"
       content: "Prompt Content"
